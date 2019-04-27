@@ -2,7 +2,6 @@
 #ifdef _WIN32
 #include "win32_util_api.h"
 #include <windows.h>
-#include <cassert>
 #include <functional>
 #include <utility>
 
@@ -10,85 +9,11 @@
 namespace win32
 {
 
-///////////////////
-
-// Attaches timer event to given window.
-// Allows derived classes to define behavior for timer events.
-class WIN32UTIL_API TimerOld
-{
- public:
-    using Callback_t = std::function<void(DWORD)>;
-
- public:
-   TimerOld(HWND hwnd, Callback_t callback);
-   virtual ~TimerOld();
-   TimerOld(const TimerOld&) = delete;
-   TimerOld(TimerOld&& other) noexcept;
-   TimerOld& operator=(const TimerOld&) = delete;
-   TimerOld& operator=(TimerOld&& other) noexcept;
-
-   // Setting 'continuous' to 'true' will restart the timer after it times out.
-   void start(unsigned int timeOutMs, bool continuous = false);
-   void stop();
-   bool isRunning() const;
-
-   HWND hwnd() const;
-   UINT_PTR id() const;
-   explicit operator bool() const;
-   friend void swap(TimerOld& a, TimerOld& b) noexcept;
-
- private:
-   static void timerProc(HWND hwnd, UINT msgId, UINT timerId, DWORD systemTime);
-   void setup();
-   void cleanup();
-   void onTimerElapsed(DWORD systemTime);
-
- private:
-   HWND m_hwnd = NULL;
-   Callback_t m_callback;
-   UINT_PTR m_id = 0;
-   unsigned int m_timeOutMs = 0;
-   bool m_isContinuous = false;
-};
-
-
-inline HWND TimerOld::hwnd() const
-{
-   return m_hwnd;
-}
-
-inline UINT_PTR TimerOld::id() const
-{
-   return m_id;
-}
-
-inline bool TimerOld::isRunning() const
-{
-   return (m_id != 0);
-}
-
-inline TimerOld::operator bool() const
-{
-   return isRunning();
-}
-
-inline void swap(TimerOld& a, TimerOld& b) noexcept
-{
-   std::swap(a.m_hwnd, b.m_hwnd);
-   std::swap(a.m_callback, b.m_callback);
-   std::swap(a.m_id, b.m_id);
-   std::swap(a.m_timeOutMs, b.m_timeOutMs);
-   std::swap(a.m_isContinuous, b.m_isContinuous);
-}
-
-
-///////////////////
-
 // RAII class for timers that are associated with a window.
 // The dtor will kill the timer.
 class WIN32UTIL_API Timer
 {
-public:
+ public:
    Timer() = default;
    Timer(HWND hwnd, UINT_PTR id);
    ~Timer();
@@ -104,20 +29,17 @@ public:
 
    bool start(unsigned int timeOutMs);
    bool stop();
-   // Cannot provide a isRunning() function because the Timer
-   // object will not get called back when the timer expires.
 
-private:
+ private:
    bool isValid() const;
 
-private:
+ private:
    HWND m_hwnd = NULL;
    UINT_PTR m_id = 0;
 };
 
 
-inline Timer::Timer(HWND hwnd, UINT_PTR id)
-   : m_hwnd{hwnd}, m_id{id}
+inline Timer::Timer(HWND hwnd, UINT_PTR id) : m_hwnd{hwnd}, m_id{id}
 {
 }
 
@@ -161,14 +83,16 @@ inline bool Timer::isValid() const
 ///////////////////
 
 // Calls a given function after a time-out interval.
+// Needs message loop to work even though it is not attached to a window.
 class WIN32UTIL_API TimedCallback
 {
  public:
-    // Type of the callback function. Is passed the system time
-    // when the timer expired.
-    using Callback_t = std::function<void(DWORD)>;
+   // Type of the callback function. Is passed the system time
+   // when the timer expired.
+   using Callback_t = std::function<void(DWORD)>;
 
  public:
+   TimedCallback() = default;
    explicit TimedCallback(Callback_t callback);
    ~TimedCallback();
    TimedCallback(const TimedCallback&) = delete;
@@ -176,42 +100,47 @@ class WIN32UTIL_API TimedCallback
    TimedCallback& operator=(const TimedCallback&) = delete;
    TimedCallback& operator=(TimedCallback&& other) noexcept;
 
-   UINT_PTR id() const;
    explicit operator bool() const;
    friend void swap(TimedCallback& a, TimedCallback& b) noexcept;
 
-   // Setting 'continuous' to 'true' will restart the timer after it times out.
-   void start(unsigned int timeOutMs, bool continuous = false);
+   bool start(unsigned int timeOutMs);
    void stop();
-   bool isRunning() const;
+
+   // Only useful for testing.
+   UINT_PTR id() const;
 
  private:
-   static void timerProc(HWND hwnd, UINT msgId, UINT timerId, DWORD systemTime);
-   void setup();
-   void cleanup();
-   void onTimerElapsed(DWORD systemTime);
+   void setId(UINT_PTR id);
+
+   static void timerProc(HWND hwnd, UINT msgId, UINT timerId, DWORD sysTime);
+   void onTimerElapsed(DWORD sysTime);
 
  private:
    Callback_t m_callback;
    UINT_PTR m_id = 0;
    unsigned int m_timeOutMs = 0;
-   bool m_isContinuous = false;
 };
 
 
-inline UINT_PTR TimedCallback::id() const
+inline TimedCallback::TimedCallback(Callback_t callback) : m_callback{callback}
 {
-   return m_id;
-}
-
-inline bool TimedCallback::isRunning() const
-{
-   return (m_id != 0);
 }
 
 inline TimedCallback::operator bool() const
 {
-   return isRunning();
+   return m_callback.operator bool();
+}
+
+inline void swap(TimedCallback& a, TimedCallback& b) noexcept
+{
+   std::swap(a.m_callback, b.m_callback);
+   std::swap(a.m_id, b.m_id);
+   std::swap(a.m_timeOutMs, b.m_timeOutMs);
+}
+
+inline UINT_PTR TimedCallback::id() const
+{
+   return m_id;
 }
 
 } // namespace win32

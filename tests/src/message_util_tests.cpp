@@ -1,6 +1,7 @@
 #include "message_util_tests.h"
 #include "message_util.h"
 #include "test_util.h"
+#include "timer.h"
 #include "window.h"
 #include <array>
 #include <functional>
@@ -117,8 +118,9 @@ void testMainMessageLoop(HWND /*testRunnerWnd*/)
 void testModalMessageLoop(HWND testRunnerWnd)
 {
    {
-      bool stopMsgLoopFlag = false;
       const std::string caseLabel{"modalMessageLoop message dispatching"};
+
+      bool stopMsgLoopFlag = false;
       ModalTestWindow wnd{stopMsgLoopFlag};
       wnd.create(testRunnerWnd, {150, 150, 500, 250}, L"Modal dispatching test",
                  WS_OVERLAPPEDWINDOW);
@@ -132,9 +134,10 @@ void testModalMessageLoop(HWND testRunnerWnd)
       VERIFY(wnd.wasMessageReceived(WM_MSG_3), caseLabel);
    }
    {
-      bool stopMsgLoopFlag = false;
       const std::string caseLabel{"modalMessageLoop disabling parent window during modal"
                                   " loop and reenabling it afterwards"};
+
+      bool stopMsgLoopFlag = false;
       ModalTestWindow wnd{stopMsgLoopFlag};
       wnd.setVerificationCallback([testRunnerWnd, &caseLabel]() {
          VERIFY(!::IsWindowEnabled(testRunnerWnd), caseLabel);
@@ -147,6 +150,21 @@ void testModalMessageLoop(HWND testRunnerWnd)
       modalMessageLoop(wnd, stopMsgLoopFlag, testRunnerWnd);
 
       VERIFY(::IsWindowEnabled(testRunnerWnd), caseLabel);
+   }
+   {
+      const std::string caseLabel{"modalMessageLoop for null window"};
+
+      bool stopMsgLoopFlag = false;
+      std::size_t callCount = 0;
+      TimedCallback timedCb{[&callCount, &stopMsgLoopFlag](DWORD /*sysTime*/) { 
+         if (++callCount == 10)
+            stopMsgLoopFlag = true;
+      }};
+      timedCb.start(20);
+
+      modalMessageLoop(NULL, stopMsgLoopFlag);
+
+      VERIFY(callCount == 10, caseLabel);
    }
 }
 

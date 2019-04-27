@@ -1,8 +1,7 @@
 #ifdef _WIN32
 #include "timer.h"
 #include "string_util.h"
-#include <tchar.h>
-#include <atomic>
+#include <cassert>
 #include <mutex>
 #include <unordered_map>
 
@@ -12,40 +11,47 @@ namespace
 
 using namespace win32;
 
+
 ///////////////////
 
-uint64_t makeUniqueId()
+// Keeps track of all TimedCallback objects.
+// Thread-safe.
+class TimedCallbackRegistry
 {
-   static std::atomic<uint64_t> counter = 0;
-   return ++counter;
+ public:
+   static void registerTimer(UINT_PTR id, TimedCallback* timer);
+   static void unregisterTimer(UINT_PTR id);
+   static TimedCallback* getTimer(UINT_PTR id);
+
+ private:
+   static std::unordered_map<UINT_PTR, TimedCallback*> m_timers;
+   static std::mutex m_guard;
+};
+
+
+std::unordered_map<UINT_PTR, TimedCallback*> TimedCallbackRegistry::m_timers;
+std::mutex TimedCallbackRegistry::m_guard;
+
+
+void TimedCallbackRegistry::registerTimer(UINT_PTR id, TimedCallback* timer)
+{
+   std::lock_guard<std::mutex> lock(m_guard);
+   m_timers[id] = timer;
 }
 
-
-String makeTimerPropertyName(uint64_t id)
+void TimedCallbackRegistry::unregisterTimer(UINT_PTR id)
 {
-   static String timerPropertyPrefix = _T("TimerProperty_");
-   return String(timerPropertyPrefix) + win32::to_string(id);
+   std::lock_guard<std::mutex> lock(m_guard);
+   m_timers.erase(id);
 }
 
-
-void attachTimer(HWND hwnd, TimerOld* timer)
+TimedCallback* TimedCallbackRegistry::getTimer(UINT_PTR id)
 {
-   const String propName = makeTimerPropertyName(timer->id());
-   SetProp(hwnd, propName.c_str(), timer);
-}
-
-
-void detachTimer(HWND hwnd, const TimerOld* timer)
-{
-   const String propName = makeTimerPropertyName(timer->id());
-   RemoveProp(hwnd, propName.c_str());
-}
-
-
-TimerOld* getAttachedTimer(HWND hwnd, UINT_PTR id)
-{
-   const String propName = makeTimerPropertyName(id);
-   return reinterpret_cast<TimerOld*>(GetProp(hwnd, propName.c_str()));
+   std::lock_guard<std::mutex> lock(m_guard);
+   auto pos = m_timers.find(id);
+   if (pos != m_timers.end())
+      return pos->second;
+   return nullptr;
 }
 
 } // namespace
@@ -53,101 +59,6 @@ TimerOld* getAttachedTimer(HWND hwnd, UINT_PTR id)
 
 namespace win32
 {
-
-///////////////////
-
-TimerOld::TimerOld(HWND hwnd, Callback_t callback)
-: m_hwnd{hwnd}, m_callback{callback}, m_id{makeUniqueId()}
-{
-   assert(m_hwnd && "TimerOld needs a window to attached data to.");
-   setup();
-}
-
-
-TimerOld::~TimerOld()
-{
-   stop();
-   cleanup();
-}
-
-
-TimerOld::TimerOld(TimerOld&& other) noexcept
-{
-   swap(*this, other);
-}
-
-
-TimerOld& TimerOld::operator=(TimerOld&& other) noexcept
-{
-   m_hwnd = other.m_hwnd;
-   m_callback = other.m_callback;
-   m_id = other.m_id;
-   m_timeOutMs = other.m_timeOutMs;
-   m_isContinuous = other.m_isContinuous;
-   // Make sure dtor of moved-from timer does nothing.
-   other.m_hwnd = NULL;
-   other.m_id = 0;
-   return *this;
-}
-
-
-void TimerOld::start(unsigned int timeOutMs, bool continuous)
-{
-   if (m_hwnd)
-   {
-      m_timeOutMs = timeOutMs;
-      m_isContinuous = continuous;
-      m_id = ::SetTimer(m_hwnd, m_id, timeOutMs, reinterpret_cast<TIMERPROC>(timerProc));
-   }
-}
-
-
-void TimerOld::stop()
-{
-   if (isRunning())
-   {
-      ::KillTimer(m_hwnd, m_id);
-      m_id = 0;
-   }
-}
-
-
-void TimerOld::timerProc(HWND hwnd, UINT msgId, UINT timerId, DWORD systemTime)
-{
-   assert(msgId == WM_TIMER);
-   if (msgId != WM_TIMER)
-      return;
-
-   if (hwnd)
-   {
-      TimerOld* timer = getAttachedTimer(hwnd, timerId);
-      if (timer)
-         timer->onTimerElapsed(systemTime);
-   }
-}
-
-
-void TimerOld::setup()
-{
-   if (m_hwnd)
-      attachTimer(m_hwnd, this);
-}
-
-
-void TimerOld::cleanup()
-{
-   if (m_hwnd)
-      detachTimer(m_hwnd, this);
-}
-
-
-void TimerOld::onTimerElapsed(DWORD systemTime)
-{
-   m_callback(systemTime);
-   if (m_isContinuous)
-      start(m_timeOutMs, m_isContinuous);
-}
-
 
 ///////////////////
 
@@ -180,60 +91,9 @@ bool Timer::stop()
 
 ///////////////////
 
-// Keeps track of all TimedCallback objects.
-// Thread-safe.
-class TimedCallbackRegistry
-{
-public:
-   static void registerTimer(UINT_PTR id, TimedCallback* timer);
-   static void unregisterTimer(UINT_PTR id);
-   static TimedCallback* getTimer(UINT_PTR id);
-
-private:
-   static std::unordered_map<UINT_PTR, TimedCallback*> m_timers;
-   static std::mutex m_guard;
-};
-
-
-std::unordered_map<UINT_PTR, TimedCallback*> TimedCallbackRegistry::m_timers;
-std::mutex TimedCallbackRegistry::m_guard;
-
-
-void TimedCallbackRegistry::registerTimer(UINT_PTR id, TimedCallback* timer)
-{
-   std::lock_guard<std::mutex> lock(m_guard);
-   m_timers[id] = timer;
-}
-
-void TimedCallbackRegistry::unregisterTimer(UINT_PTR id)
-{
-   std::lock_guard<std::mutex> lock(m_guard);
-   m_timers.erase(id);
-}
-
-TimedCallback* TimedCallbackRegistry::getTimer(UINT_PTR id)
-{
-   std::lock_guard<std::mutex> lock(m_guard);
-   auto pos = m_timers.find(id);
-   if (pos != m_timers.end())
-      return pos->second;
-   return nullptr;
-}
-
-
-///////////////////
-
-TimedCallback::TimedCallback(Callback_t callback)
-: m_callback{callback}, m_id{makeUniqueId()}
-{
-   setup();
-}
-
-
 TimedCallback::~TimedCallback()
 {
    stop();
-   cleanup();
 }
 
 
@@ -248,41 +108,52 @@ TimedCallback& TimedCallback::operator=(TimedCallback&& other) noexcept
    m_callback = other.m_callback;
    m_id = other.m_id;
    m_timeOutMs = other.m_timeOutMs;
-   m_isContinuous = other.m_isContinuous;
    // Make sure dtor of moved-from timer does nothing.
+   other.m_callback = {};
    other.m_id = 0;
    return *this;
 }
 
 
-void TimedCallback::start(unsigned int timeOutMs, bool continuous)
+bool TimedCallback::start(unsigned int timeOutMs)
 {
+   if (!m_callback)
+      return false;
+
    m_timeOutMs = timeOutMs;
-   m_isContinuous = continuous;
-   m_id = ::SetTimer(NULL, m_id, timeOutMs, reinterpret_cast<TIMERPROC>(timerProc));
+
+   const UINT_PTR newId =
+      ::SetTimer(NULL, m_id, timeOutMs, reinterpret_cast<TIMERPROC>(timerProc));
+   setId(newId);
+
+   return (newId != 0);
 }
 
 
 void TimedCallback::stop()
 {
-   if (isRunning())
+   if (m_id != 0)
    {
       ::KillTimer(NULL, m_id);
-      m_id = 0;
+      setId(0);
    }
 }
 
-void swap(TimedCallback& a, TimedCallback& b) noexcept
+
+void TimedCallback::setId(UINT_PTR id)
 {
-   using std::swap;
-   swap(a.m_callback, b.m_callback);
-   swap(a.m_id, b.m_id);
-   swap(a.m_timeOutMs, b.m_timeOutMs);
-   swap(a.m_isContinuous, b.m_isContinuous);
+   if (m_id != id)
+   {
+      if (m_id != 0)
+         TimedCallbackRegistry::unregisterTimer(m_id);
+      if (id != 0)
+         TimedCallbackRegistry::registerTimer(id, this);
+      m_id = id;
+   }
 }
 
 
-void TimedCallback::timerProc(HWND /*hwnd*/, UINT msgId, UINT timerId, DWORD systemTime)
+void TimedCallback::timerProc(HWND /*hwnd*/, UINT msgId, UINT timerId, DWORD sysTime)
 {
    assert(msgId == WM_TIMER);
    if (msgId != WM_TIMER)
@@ -290,27 +161,14 @@ void TimedCallback::timerProc(HWND /*hwnd*/, UINT msgId, UINT timerId, DWORD sys
 
    TimedCallback* timer = TimedCallbackRegistry::getTimer(timerId);
    if (timer)
-      timer->onTimerElapsed(systemTime);
+      timer->onTimerElapsed(sysTime);
 }
 
 
-void TimedCallback::setup()
+void TimedCallback::onTimerElapsed(DWORD sysTime)
 {
-   TimedCallbackRegistry::registerTimer(m_id, this);
-}
-
-
-void TimedCallback::cleanup()
-{
-   TimedCallbackRegistry::unregisterTimer(m_id);
-}
-
-
-void TimedCallback::onTimerElapsed(DWORD systemTime)
-{
-   m_callback(systemTime);
-   if (m_isContinuous)
-      start(m_timeOutMs, m_isContinuous);
+   if (m_callback)
+      m_callback(sysTime);
 }
 
 } // namespace win32
