@@ -1,6 +1,6 @@
 #pragma once
 #ifdef _WIN32
-#include <windows.h>
+#include "win32_windows.h"
 #include <cmath>
 #include <utility>
 

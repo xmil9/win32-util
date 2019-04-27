@@ -1,7 +1,7 @@
 #include "message_util.h"
 #include "resources/resource.h"
 #include "test_runner_window.h"
-#include <windows.h>
+#include "win32_windows.h"
 
 using namespace win32;
 

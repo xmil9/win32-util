@@ -2,7 +2,7 @@
 #ifdef _WIN32
 #include "gdi_object.h"
 #include "win32_util_api.h"
-#include <windows.h>
+#include "win32_windows.h"
 #include <cstring>
 #include <utility>
 

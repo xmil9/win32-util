@@ -2,7 +2,7 @@
 #ifdef _WIN32
 #include "string_util.h"
 #include "win32_util_api.h"
-#include <windows.h>
+#include "win32_windows.h"
 
 
 namespace win32

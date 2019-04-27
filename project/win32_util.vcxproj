@@ -324,6 +324,7 @@
     <ClInclude Include="..\src\geometry.h" />
     <ClInclude Include="..\src\string_util.h" />
     <ClInclude Include="..\src\timer.h" />
+    <ClInclude Include="..\src\win32_windows.h" />
     <ClInclude Include="..\src\window.h" />
   </ItemGroup>
   <ItemGroup>
