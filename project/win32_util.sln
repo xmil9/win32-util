@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "win32_util_tests", "..\tests\project\win32_util_tests.vcxproj", "{FFD35A24-AA32-4382-AB20-3FEDDA17504F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "win32_util", "win32_util.vcxproj", "{D00761BD-4896-40BA-97AF-5442729B11FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Dll|x64 = Debug Dll|x64
+		Debug Dll|x86 = Debug Dll|x86
+		Debug Lib|x64 = Debug Lib|x64
+		Debug Lib|x86 = Debug Lib|x86
+		Release Dll|x64 = Release Dll|x64
+		Release Dll|x86 = Release Dll|x86
+		Release Lib|x64 = Release Lib|x64
+		Release Lib|x86 = Release Lib|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Debug Dll|x64.ActiveCfg = Debug Dll|x64
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Debug Dll|x64.Build.0 = Debug Dll|x64
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Debug Dll|x86.ActiveCfg = Debug Dll|Win32
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Debug Dll|x86.Build.0 = Debug Dll|Win32
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Debug Lib|x64.ActiveCfg = Debug Lib|x64
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Debug Lib|x64.Build.0 = Debug Lib|x64
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Debug Lib|x86.ActiveCfg = Debug Lib|Win32
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Debug Lib|x86.Build.0 = Debug Lib|Win32
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Release Dll|x64.ActiveCfg = Release Dll|x64
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Release Dll|x64.Build.0 = Release Dll|x64
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Release Dll|x86.ActiveCfg = Release Dll|Win32
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Release Dll|x86.Build.0 = Release Dll|Win32
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Release Lib|x64.ActiveCfg = Release Lib|x64
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Release Lib|x64.Build.0 = Release Lib|x64
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Release Lib|x86.ActiveCfg = Release Lib|Win32
+		{FFD35A24-AA32-4382-AB20-3FEDDA17504F}.Release Lib|x86.Build.0 = Release Lib|Win32
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Debug Dll|x64.ActiveCfg = Debug Dll|x64
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Debug Dll|x64.Build.0 = Debug Dll|x64
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Debug Dll|x86.ActiveCfg = Debug Dll|Win32
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Debug Dll|x86.Build.0 = Debug Dll|Win32
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Debug Lib|x64.ActiveCfg = Debug Lib|x64
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Debug Lib|x64.Build.0 = Debug Lib|x64
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Debug Lib|x86.ActiveCfg = Debug Lib|Win32
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Debug Lib|x86.Build.0 = Debug Lib|Win32
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Release Dll|x64.ActiveCfg = Release Dll|x64
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Release Dll|x64.Build.0 = Release Dll|x64
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Release Dll|x86.ActiveCfg = Release Dll|Win32
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Release Dll|x86.Build.0 = Release Dll|Win32
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Release Lib|x64.ActiveCfg = Release Lib|x64
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Release Lib|x64.Build.0 = Release Lib|x64
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Release Lib|x86.ActiveCfg = Release Lib|Win32
+		{D00761BD-4896-40BA-97AF-5442729B11FF}.Release Lib|x86.Build.0 = Release Lib|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC747417-D2FA-406D-A7FD-F56B2D84F313}
+	EndGlobalSection
+EndGlobal

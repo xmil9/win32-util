@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\src\win32_util_api.h" />
+    <ClInclude Include="..\src\device_context.h" />
+    <ClInclude Include="..\src\gdi_object.h" />
+    <ClInclude Include="..\src\geometry.h" />
+    <ClInclude Include="..\src\string_util.h" />
+    <ClInclude Include="..\src\timer.h" />
+    <ClInclude Include="..\src\window.h" />
+    <ClInclude Include="..\src\message_util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\gdi_object.cpp" />
+    <ClCompile Include="..\src\timer.cpp" />
+    <ClCompile Include="..\src\window.cpp" />
+    <ClCompile Include="..\src\message_util.cpp" />
+    <ClCompile Include="..\src\device_context.cpp" />
+  </ItemGroup>
+</Project>
