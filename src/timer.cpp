@@ -107,7 +107,6 @@ TimedCallback& TimedCallback::operator=(TimedCallback&& other) noexcept
 {
    m_callback = other.m_callback;
    m_id = other.m_id;
-   m_timeOutMs = other.m_timeOutMs;
    // Make sure dtor of moved-from timer does nothing.
    other.m_callback = {};
    other.m_id = 0;
@@ -119,8 +118,6 @@ bool TimedCallback::start(unsigned int timeOutMs)
 {
    if (!m_callback)
       return false;
-
-   m_timeOutMs = timeOutMs;
 
    const UINT_PTR newId =
       ::SetTimer(NULL, m_id, timeOutMs, reinterpret_cast<TIMERPROC>(timerProc));

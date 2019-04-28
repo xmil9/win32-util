@@ -118,7 +118,6 @@ class WIN32UTIL_API TimedCallback
  private:
    Callback_t m_callback;
    UINT_PTR m_id = 0;
-   unsigned int m_timeOutMs = 0;
 };
 
 
@@ -135,7 +134,6 @@ inline void swap(TimedCallback& a, TimedCallback& b) noexcept
 {
    std::swap(a.m_callback, b.m_callback);
    std::swap(a.m_id, b.m_id);
-   std::swap(a.m_timeOutMs, b.m_timeOutMs);
 }
 
 inline UINT_PTR TimedCallback::id() const
