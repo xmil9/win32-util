@@ -1,6 +1,7 @@
 #ifdef _WIN32
 #include "window.h"
 #include <tchar.h>
+#include <windowsx.h>
 #include <array>
 #include <cassert>
 #include <cstring>
@@ -10,20 +11,22 @@
 namespace
 {
 
+using namespace win32;
+
 ///////////////////
 
 const TCHAR* wndSelfProperty = _T("SelfProperty");
 
 
-void setSelf(HWND hwnd, win32::Window* self)
+void setSelf(HWND hwnd, Window* self)
 {
    ::SetProp(hwnd, wndSelfProperty, self);
 }
 
 
-win32::Window* getSelf(HWND hwnd)
+Window* getSelf(HWND hwnd)
 {
-   return reinterpret_cast<win32::Window*>(::GetProp(hwnd, wndSelfProperty));
+   return reinterpret_cast<Window*>(::GetProp(hwnd, wndSelfProperty));
 }
 
 
@@ -33,7 +36,7 @@ void removeSelf(HWND hwnd)
 }
 
 
-win32::Window* initSelf(HWND hwnd, UINT msgId, LPARAM lParam)
+Window* initSelf(HWND hwnd, UINT msgId, LPARAM lParam)
 {
    // Check for first message sent to window during creation and set up the self pointer.
    // Note: The very first message is actually a WM_GETMINMAXINFO message. Since for that
@@ -42,12 +45,40 @@ win32::Window* initSelf(HWND hwnd, UINT msgId, LPARAM lParam)
    if (msgId == WM_NCCREATE)
    {
       const CREATESTRUCT* createInfo = reinterpret_cast<CREATESTRUCT*>(lParam);
-      win32::Window* self = reinterpret_cast<win32::Window*>(createInfo->lpCreateParams);
+      Window* self = reinterpret_cast<Window*>(createInfo->lpCreateParams);
       setSelf(hwnd, self);
       return self;
    }
    // For any other message the self pointer should be set up already.
    return getSelf(hwnd);
+}
+
+
+///////////////////
+
+BYTE decodeScanCode(LPARAM lParam)
+{
+   return static_cast<BYTE>(HIWORD(lParam));
+}
+
+
+bool decodeExtendedKeyFlag(LPARAM lParam)
+{
+   constexpr WORD isExtendedKeyMask = 0x0100;
+   return HIWORD(lParam) & isExtendedKeyMask;
+}
+
+
+bool decodePreviousKeyState(LPARAM lParam)
+{
+   constexpr WORD wasPreviouslyDownMask = 0x4000;
+   return HIWORD(lParam) & wasPreviouslyDownMask;
+}
+
+
+Point decodeMousePosition(LPARAM lParam)
+{
+   return {GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)};
 }
 
 } // namespace
@@ -170,7 +201,6 @@ String Window::title() const
    std::array<TCHAR, 512> buffer;
    ::GetWindowText(hwnd(), buffer.data(), static_cast<int>(buffer.size()));
    return buffer.data();
-
 }
 
 
@@ -315,6 +345,39 @@ LRESULT Window::handleMessage(HWND hwnd, UINT msgId, WPARAM wParam, LPARAM lPara
    case WM_PAINT:
    {
       if (onPaint())
+         return 0;
+      break;
+   }
+   case WM_KEYDOWN:
+   {
+      if (onKeyDown(static_cast<UINT>(wParam), LOWORD(lParam), decodeScanCode(lParam),
+                    decodeExtendedKeyFlag(lParam), decodePreviousKeyState(lParam)))
+         return 0;
+      break;
+   }
+   case WM_HSCROLL:
+   {
+      if (onHScroll(LOWORD(wParam), HIWORD(wParam), reinterpret_cast<HWND>(lParam)))
+         return 0;
+      break;
+   }
+   case WM_VSCROLL:
+   {
+      if (onVScroll(LOWORD(wParam), HIWORD(wParam), reinterpret_cast<HWND>(lParam)))
+         return 0;
+      break;
+   }
+   case WM_MOUSEWHEEL:
+   {
+      if (onMouseWheel(GET_WHEEL_DELTA_WPARAM(wParam), GET_KEYSTATE_WPARAM(wParam),
+                       decodeMousePosition(lParam)))
+         return 0;
+      break;
+   }
+   case WM_MOUSEHWHEEL:
+   {
+      if (onMouseHorzWheel(GET_WHEEL_DELTA_WPARAM(wParam), GET_KEYSTATE_WPARAM(wParam),
+                           decodeMousePosition(lParam)))
          return 0;
       break;
    }

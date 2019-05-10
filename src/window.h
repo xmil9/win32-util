@@ -32,8 +32,8 @@ class WIN32UTIL_API Window
    friend void swap(Window& a, Window& b) noexcept;
 
    HWND hwnd() const;
-   bool create(HWND parent, const Rect& bounds, const String& title,
-               unsigned long style, unsigned long extStyle = 0);
+   bool create(HWND parent, const Rect& bounds, const String& title, unsigned long style,
+               unsigned long extStyle = 0);
    // Posts WM_CLOSE message.
    void close();
    // Sends WM_CLOSE message.
@@ -75,6 +75,12 @@ class WIN32UTIL_API Window
    virtual bool onClose();
    virtual bool onNcPaint(HRGN /*updateRegion*/) { return false; }
    virtual bool onPaint() { return false; }
+   virtual bool onKeyDown(UINT virtKeyCode, UINT repeatCount, BYTE scanCode,
+                          bool isExtendedKey, bool wasPreviouslyDown);
+   virtual bool onHScroll(UINT scrollAction, UINT thumbPos, HWND scrollCtrl);
+   virtual bool onVScroll(UINT scrollAction, UINT thumbPos, HWND scrollCtrl);
+   virtual bool onMouseWheel(int delta, UINT keyState, Point mousePos);
+   virtual bool onMouseHorzWheel(int delta, UINT keyState, Point mousePos);
    virtual bool onTimer(UINT_PTR /*timerId*/, TIMERPROC /*callback*/) { return false; }
 
  private:
@@ -86,9 +92,7 @@ class WIN32UTIL_API Window
 };
 
 
-
-inline Window::Window(HWND hwnd)
-   : m_hwnd{hwnd}
+inline Window::Window(HWND hwnd) : m_hwnd{hwnd}
 {
 }
 
@@ -110,6 +114,35 @@ inline void swap(Window& a, Window& b) noexcept
 inline HWND Window::hwnd() const
 {
    return m_hwnd;
+}
+
+inline bool Window::onKeyDown(UINT /*virtKeyCode*/, UINT /*repeatCount*/,
+                              BYTE /*scanCode*/, bool /*isExtendedKey*/,
+                              bool /*wasPreviouslyDown*/)
+{
+   return false;
+}
+
+inline bool Window::onHScroll(UINT /*scrollAction*/, UINT /*thumbPos*/,
+                              HWND /*scrollCtrl*/)
+{
+   return false;
+}
+
+inline bool Window::onVScroll(UINT /*scrollAction*/, UINT /*thumbPos*/,
+                              HWND /*scrollCtrl*/)
+{
+   return false;
+}
+
+inline bool Window::onMouseWheel(int /*delta*/, UINT /*keyState*/, Point /*mousePos*/)
+{
+   return false;
+}
+
+inline bool Window::onMouseHorzWheel(int /*delta*/, UINT /*keyState*/, Point /*mousePos*/)
+{
+   return false;
 }
 
 } // namespace win32
