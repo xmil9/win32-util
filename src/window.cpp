@@ -56,6 +56,12 @@ Window* initSelf(HWND hwnd, UINT msgId, LPARAM lParam)
 
 ///////////////////
 
+UINT decodeRepeatCount(LPARAM lParam)
+{
+   return LOWORD(lParam);
+}
+
+
 BYTE decodeScanCode(LPARAM lParam)
 {
    return static_cast<BYTE>(HIWORD(lParam));
@@ -64,15 +70,29 @@ BYTE decodeScanCode(LPARAM lParam)
 
 bool decodeExtendedKeyFlag(LPARAM lParam)
 {
-   constexpr WORD isExtendedKeyMask = 0x0100;
-   return HIWORD(lParam) & isExtendedKeyMask;
+   constexpr WORD extendedKeyMask = 0x0100;
+   return HIWORD(lParam) & extendedKeyMask;
+}
+
+
+bool decodeContextCode(LPARAM lParam)
+{
+   constexpr WORD contextCodeMask = 0x2000;
+   return HIWORD(lParam) & contextCodeMask;
 }
 
 
 bool decodePreviousKeyState(LPARAM lParam)
 {
-   constexpr WORD wasPreviouslyDownMask = 0x4000;
-   return HIWORD(lParam) & wasPreviouslyDownMask;
+   constexpr WORD keyStateMask = 0x4000;
+   return HIWORD(lParam) & keyStateMask;
+}
+
+
+bool decodeTransitionState(LPARAM lParam)
+{
+   constexpr WORD transitionStateMask = 0x8000;
+   return HIWORD(lParam) & transitionStateMask;
 }
 
 
@@ -348,10 +368,25 @@ LRESULT Window::handleMessage(HWND hwnd, UINT msgId, WPARAM wParam, LPARAM lPara
          return 0;
       break;
    }
+   // If the message loop calls TranslateMessage() WM_KEYDOWN events for character,
+   // backspace, enter, escape, shift+enter, and tab keys are translated to WM_CHAR
+   // events. Events for other keys are alweays received as WM_KEYDOWN messages.
    case WM_KEYDOWN:
    {
-      if (onKeyDown(static_cast<UINT>(wParam), LOWORD(lParam), decodeScanCode(lParam),
-                    decodeExtendedKeyFlag(lParam), decodePreviousKeyState(lParam)))
+      if (onKeyDown(static_cast<UINT>(wParam), decodeRepeatCount(lParam),
+                    decodeScanCode(lParam), decodeExtendedKeyFlag(lParam),
+                    decodePreviousKeyState(lParam)))
+         return 0;
+      break;
+   }
+   // Key-down events for character, backspace, enter, escape, shift+enter, and tab keys
+   // are translated to WM_CHAR messages by TranslateMessage().
+   case WM_CHAR:
+   {
+      if (onChar(static_cast<TCHAR>(wParam), decodeRepeatCount(lParam),
+                 decodeScanCode(lParam), decodeExtendedKeyFlag(lParam),
+                 decodePreviousKeyState(lParam), decodeContextCode(lParam),
+                 decodeTransitionState(lParam)))
          return 0;
       break;
    }
