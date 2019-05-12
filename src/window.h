@@ -79,6 +79,8 @@ class WIN32UTIL_API Window
                           bool isExtendedKey, bool wasPreviouslyDown);
    virtual bool onChar(TCHAR ch, UINT repeatCount, BYTE scanCode, bool isExtendedKey,
                        bool wasPreviouslyDown, bool isAltDown, bool isReleased);
+   virtual bool onSetFocus(HWND /*unfocusedWnd*/) { return false; }
+   virtual bool onKillFocus(HWND /*focusedWnd*/) { return false; }
    virtual bool onHScroll(UINT scrollAction, UINT thumbPos, HWND scrollCtrl);
    virtual bool onVScroll(UINT scrollAction, UINT thumbPos, HWND scrollCtrl);
    virtual bool onMouseWheel(int delta, UINT keyState, Point mousePos);

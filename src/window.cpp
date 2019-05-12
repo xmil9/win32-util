@@ -368,9 +368,10 @@ LRESULT Window::handleMessage(HWND hwnd, UINT msgId, WPARAM wParam, LPARAM lPara
          return 0;
       break;
    }
-   // If the message loop calls TranslateMessage() WM_KEYDOWN events for character,
-   // backspace, enter, escape, shift+enter, and tab keys are translated to WM_CHAR
-   // events. Events for other keys are alweays received as WM_KEYDOWN messages.
+   // If the message loop calls TranslateMessage(), WM_KEYDOWN events for character,
+   // backspace, enter, escape, shift+enter, and tab keys are processed by adding
+   // WM_CHAR events to the message loop (the original WM_KEYDOWN events will still be
+   // dispatched first). Events for other keys are only received as WM_KEYDOWN messages.
    case WM_KEYDOWN:
    {
       if (onKeyDown(static_cast<UINT>(wParam), decodeRepeatCount(lParam),
@@ -380,13 +381,26 @@ LRESULT Window::handleMessage(HWND hwnd, UINT msgId, WPARAM wParam, LPARAM lPara
       break;
    }
    // Key-down events for character, backspace, enter, escape, shift+enter, and tab keys
-   // are translated to WM_CHAR messages by TranslateMessage().
+   // are translated to WM_CHAR messages by TranslateMessage(). The original WM_KEYDOWN
+   // events are first dispatched, too.
    case WM_CHAR:
    {
       if (onChar(static_cast<TCHAR>(wParam), decodeRepeatCount(lParam),
                  decodeScanCode(lParam), decodeExtendedKeyFlag(lParam),
                  decodePreviousKeyState(lParam), decodeContextCode(lParam),
                  decodeTransitionState(lParam)))
+         return 0;
+      break;
+   }
+   case WM_SETFOCUS:
+   {
+      if (onSetFocus(reinterpret_cast<HWND>(wParam)))
+         return 0;
+      break;
+   }
+   case WM_KILLFOCUS:
+   {
+      if (onKillFocus(reinterpret_cast<HWND>(wParam)))
          return 0;
       break;
    }
