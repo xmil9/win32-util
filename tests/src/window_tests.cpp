@@ -466,8 +466,37 @@ void testWindowOwner(HWND testRunnerWnd)
    {
       const std::string caseLabel{"Window::owner for popup window"};
       Window wnd;
-      wnd.create(testRunnerWnd, {100, 100, 400, 300}, _T("Test window"), WS_POPUPWINDOW, 0);
+      wnd.create(testRunnerWnd, {100, 100, 400, 300}, _T("Test window"), WS_POPUPWINDOW,
+                 0);
       VERIFY(wnd.owner() == testRunnerWnd, caseLabel);
+      wnd.closeImmediately();
+   }
+}
+
+
+void testWindowTitle(HWND testRunnerWnd)
+{
+   {
+      const std::string caseLabel{"Window::title for overlapped window"};
+      const String title = _T("Test window");
+      Window wnd;
+      wnd.create(testRunnerWnd, {100, 100, 400, 300}, title, WS_OVERLAPPEDWINDOW, 0);
+      VERIFY(wnd.title() == title, caseLabel);
+      wnd.closeImmediately();
+   }
+}
+
+
+void testWindowSetTitle(HWND testRunnerWnd)
+{
+   {
+      const std::string caseLabel{"Window::setTitle for overlapped window"};
+      Window wnd;
+      wnd.create(testRunnerWnd, {100, 100, 400, 300}, _T("Original title"),
+                 WS_OVERLAPPEDWINDOW, 0);
+      const String title = _T("New title");
+      wnd.setTitle(title);
+      VERIFY(wnd.title() == title, caseLabel);
       wnd.closeImmediately();
    }
 }
@@ -531,6 +560,8 @@ void testWindow(HWND testRunnerWnd)
    testWindowWindowDC(testRunnerWnd);
    testWindowParent(testRunnerWnd);
    testWindowOwner(testRunnerWnd);
+   testWindowTitle(testRunnerWnd);
+   testWindowSetTitle(testRunnerWnd);
    testWindowPostMessage(testRunnerWnd);
    testWindowSendMessage(testRunnerWnd);
 }
