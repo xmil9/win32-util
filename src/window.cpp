@@ -245,7 +245,7 @@ void Window::inval(const win32::Rect& bounds, bool erase)
 }
 
 
-std::pair<bool, Rect> Window::invalidatedBounds() const
+std::pair<bool, Rect> Window::invalBounds() const
 {
    if (hwnd())
    {

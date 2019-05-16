@@ -53,7 +53,7 @@ class WIN32UTIL_API Window
    void setTitle(const String& title);
    void inval(bool erase);
    void inval(const win32::Rect& bounds, bool erase);
-   std::pair<bool, Rect> invalidatedBounds() const;
+   std::pair<bool, Rect> invalBounds() const;
    bool postMessage(UINT msgId, WPARAM wParam = 0, LPARAM lParam = 0) const;
    LRESULT sendMessage(UINT msgId, WPARAM wParam = 0, LPARAM lParam = 0) const;
 
