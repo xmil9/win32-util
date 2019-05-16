@@ -6,6 +6,7 @@
 #include "win32_util_api.h"
 #include "win32_windows.h"
 #include <string>
+#include <utility>
 
 
 namespace win32
@@ -50,6 +51,9 @@ class WIN32UTIL_API Window
    HWND owner() const;
    String title() const;
    void setTitle(const String& title);
+   void inval(bool erase);
+   void inval(const win32::Rect& bounds, bool erase);
+   std::pair<bool, Rect> invalidatedBounds() const;
    bool postMessage(UINT msgId, WPARAM wParam = 0, LPARAM lParam = 0) const;
    LRESULT sendMessage(UINT msgId, WPARAM wParam = 0, LPARAM lParam = 0) const;
 

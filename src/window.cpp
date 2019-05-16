@@ -231,6 +231,32 @@ void Window::setTitle(const String& title)
 }
 
 
+void Window::inval(bool erase)
+{
+   if (hwnd())
+      ::InvalidateRect(hwnd(), nullptr, erase);
+}
+
+
+void Window::inval(const win32::Rect& bounds, bool erase)
+{
+   if (hwnd())
+      ::InvalidateRect(hwnd(), &bounds, erase);
+}
+
+
+std::pair<bool, Rect> Window::invalidatedBounds() const
+{
+   if (hwnd())
+   {
+      Rect bounds;
+      const bool haveInval = ::GetUpdateRect(hwnd(), &bounds, false);
+      return std::make_pair(haveInval, bounds);
+   }
+   return {false, {}};
+}
+
+
 bool Window::postMessage(UINT msgId, WPARAM wParam, LPARAM lParam) const
 {
    if (hwnd())
