@@ -79,6 +79,7 @@ class WIN32UTIL_API Window
    virtual bool onClose();
    virtual bool onNcPaint(HRGN /*updateRegion*/) { return false; }
    virtual bool onPaint() { return false; }
+   virtual bool onSize(long width, long height, UINT resizeFlag);
    virtual bool onKeyDown(UINT virtKeyCode, UINT repeatCount, BYTE scanCode,
                           bool isExtendedKey, bool wasPreviouslyDown);
    virtual bool onChar(TCHAR ch, UINT repeatCount, BYTE scanCode, bool isExtendedKey,
@@ -122,6 +123,11 @@ inline void swap(Window& a, Window& b) noexcept
 inline HWND Window::hwnd() const
 {
    return m_hwnd;
+}
+
+inline bool Window::onSize(long /*width*/, long /*height*/, UINT /*resizeFlag*/)
+{
+   return false;
 }
 
 inline bool Window::onKeyDown(UINT /*virtKeyCode*/, UINT /*repeatCount*/,
