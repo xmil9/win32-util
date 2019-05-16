@@ -54,6 +54,7 @@ class WIN32UTIL_API Window
    void inval(bool erase);
    void inval(const win32::Rect& bounds, bool erase);
    std::pair<bool, Rect> invalBounds() const;
+   bool haveInvalBounds() const;
    bool postMessage(UINT msgId, WPARAM wParam = 0, LPARAM lParam = 0) const;
    LRESULT sendMessage(UINT msgId, WPARAM wParam = 0, LPARAM lParam = 0) const;
 
@@ -123,6 +124,11 @@ inline void swap(Window& a, Window& b) noexcept
 inline HWND Window::hwnd() const
 {
    return m_hwnd;
+}
+
+inline bool Window::haveInvalBounds() const
+{
+   return invalBounds().first;
 }
 
 inline bool Window::onSize(long /*width*/, long /*height*/, UINT /*resizeFlag*/)
