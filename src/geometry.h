@@ -1,8 +1,16 @@
 #pragma once
 #ifdef _WIN32
 #include "win32_windows.h"
+#include <algorithm>
 #include <cmath>
 #include <utility>
+
+#ifdef max
+#  undef max
+#endif
+#ifdef min
+#  undef min
+#endif
 
 
 namespace win32
@@ -127,6 +135,23 @@ inline bool operator==(const Rect& a, const Rect& b)
 inline bool operator!=(const Rect& a, const Rect& b)
 {
    return !(a == b);
+}
+
+// Operations
+
+inline std::pair<bool, Rect> Intersect(const Rect& a, const Rect& b)
+{
+   const Rect intersection{std::max(a.left, b.left), std::max(a.top, b.top),
+                           std::min(a.right, b.right), std::min(a.bottom, b.bottom)};
+   const bool haveIntersection = (intersection.right > intersection.left &&
+                                  intersection.bottom > intersection.top);
+   return {haveIntersection, intersection};
+}
+
+inline Rect Unite(const Rect& a, const Rect& b)
+{
+   return Rect{std::min(a.left, b.left), std::min(a.top, b.top),
+               std::max(a.right, b.right), std::max(a.bottom, b.bottom)};
 }
 
 } // namespace win32

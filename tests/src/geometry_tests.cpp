@@ -485,6 +485,156 @@ void testRectInequality()
    }
 }
 
+
+void testRectIntersect()
+{
+   {
+      const std::string caseLabel{
+         "Intersect rects intersecting at vertical sides with positive coordinates."};
+      Rect a{10, 20, 30, 40};
+      Rect b{5, 25, 20, 35};
+
+      auto intersection = Intersect(a, b);
+
+      VERIFY(intersection.first, caseLabel);
+      VERIFY(intersection.second == Rect(10, 25, 20, 35), caseLabel);
+   }
+   {
+      const std::string caseLabel{
+         "Intersect rects intersecting at vertical sides with negative coordinates."};
+      Rect a{-30, 20, -10, 40};
+      Rect b{-20, 25, -5, 35};
+
+      auto intersection = Intersect(a, b);
+
+      VERIFY(intersection.first, caseLabel);
+      VERIFY(intersection.second == Rect(-20, 25, -10, 35), caseLabel);
+   }
+   {
+      const std::string caseLabel{
+         "Intersect rects intersecting at horizontal sides with positive coordinates."};
+      Rect a{10, 20, 30, 40};
+      Rect b{15, 10, 25, 30};
+
+      auto intersection = Intersect(a, b);
+
+      VERIFY(intersection.first, caseLabel);
+      VERIFY(intersection.second == Rect(15, 20, 25, 30), caseLabel);
+   }
+   {
+      const std::string caseLabel{
+         "Intersect rects intersecting at horizontal sides with negative coordinates."};
+      Rect a{10, -40, 30, -20};
+      Rect b{15, -30, 25, -10};
+
+      auto intersection = Intersect(a, b);
+
+      VERIFY(intersection.first, caseLabel);
+      VERIFY(intersection.second == Rect(15, -30, 25, -20), caseLabel);
+   }
+   {
+      const std::string caseLabel{"Intersect rects where one is fully inside the other."};
+      Rect a{10, 5, 30, 40};
+      Rect b{15, 10, 25, 30};
+
+      auto intersection = Intersect(a, b);
+
+      VERIFY(intersection.first, caseLabel);
+      VERIFY(intersection.second == b, caseLabel);
+   }
+   {
+      const std::string caseLabel{"Intersect rects that have no vertical intersection."};
+      Rect a{10, 5, 30, 40};
+      Rect b{15, 50, 25, 60};
+
+      auto intersection = Intersect(a, b);
+
+      VERIFY(!intersection.first, caseLabel);
+   }
+   {
+      const std::string caseLabel{
+         "Intersect rects that have no horizontal intersection."};
+      Rect a{10, 5, 30, 40};
+      Rect b{-10, 10, 0, 30};
+
+      auto intersection = Intersect(a, b);
+
+      VERIFY(!intersection.first, caseLabel);
+   }
+   {
+      const std::string caseLabel{"Intersect rects that don't overlap at all."};
+      Rect a{10, 5, 30, 40};
+      Rect b{-10, 50, 0, 60};
+
+      auto intersection = Intersect(a, b);
+
+      VERIFY(!intersection.first, caseLabel);
+   }
+}
+
+
+void testRectUnite()
+{
+   {
+      const std::string caseLabel{
+         "Unite rects that overlap at vertical sides with positive coordinates."};
+      Rect a{10, 20, 30, 40};
+      Rect b{5, 25, 20, 35};
+
+      Rect united = Unite(a, b);
+
+      VERIFY(united == Rect(5, 20, 30, 40), caseLabel);
+   }
+   {
+      const std::string caseLabel{
+         "Unite rects that overlap at vertical sides with negative coordinates."};
+      Rect a{-30, 20, -10, 40};
+      Rect b{-20, 25, -5, 35};
+
+      Rect united = Unite(a, b);
+
+      VERIFY(united == Rect(-30, 20, -5, 40), caseLabel);
+   }
+   {
+      const std::string caseLabel{
+         "Unite rects that overlap at horizontal sides with positive coordinates."};
+      Rect a{10, 20, 30, 40};
+      Rect b{15, 10, 25, 30};
+
+      Rect united = Unite(a, b);
+
+      VERIFY(united == Rect(10, 10, 30, 40), caseLabel);
+   }
+   {
+      const std::string caseLabel{
+         "Unite rects that overlap at horizontal sides with negative coordinates."};
+      Rect a{10, -40, 30, -20};
+      Rect b{15, -30, 25, -10};
+
+      Rect united = Unite(a, b);
+
+      VERIFY(united == Rect(10, -40, 30, -10), caseLabel);
+   }
+   {
+      const std::string caseLabel{"Unite rects that don't intersect."};
+      Rect a{10, 20, 30, 40};
+      Rect b{-10, -5, -20, -35};
+
+      Rect united = Unite(a, b);
+
+      VERIFY(united == Rect(-10, -5, 30, 40), caseLabel);
+   }
+   {
+      const std::string caseLabel{"Unite rects that overlap completely."};
+      Rect a{10, 20, 30, 40};
+      Rect b{12, 22, 28, 38};
+
+      Rect united = Unite(a, b);
+
+      VERIFY(united == a, caseLabel);
+   }
+}
+
 } // namespace
 
 
@@ -514,4 +664,6 @@ void testGeometry(HWND /*testRunnerWnd*/)
    testRectOffset();
    testRectEquality();
    testRectInequality();
+   testRectIntersect();
+   testRectUnite();
 }
