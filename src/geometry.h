@@ -139,7 +139,7 @@ inline bool operator!=(const Rect& a, const Rect& b)
 
 // Operations
 
-inline std::pair<bool, Rect> Intersect(const Rect& a, const Rect& b)
+inline std::pair<bool, Rect> intersect(const Rect& a, const Rect& b)
 {
    const Rect intersection{std::max(a.left, b.left), std::max(a.top, b.top),
                            std::min(a.right, b.right), std::min(a.bottom, b.bottom)};
@@ -148,7 +148,7 @@ inline std::pair<bool, Rect> Intersect(const Rect& a, const Rect& b)
    return {haveIntersection, intersection};
 }
 
-inline Rect Unite(const Rect& a, const Rect& b)
+inline Rect unite(const Rect& a, const Rect& b)
 {
    return Rect{std::min(a.left, b.left), std::min(a.top, b.top),
                std::max(a.right, b.right), std::max(a.bottom, b.bottom)};

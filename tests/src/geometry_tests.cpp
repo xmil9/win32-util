@@ -494,7 +494,7 @@ void testRectIntersect()
       Rect a{10, 20, 30, 40};
       Rect b{5, 25, 20, 35};
 
-      auto intersection = Intersect(a, b);
+      auto intersection = intersect(a, b);
 
       VERIFY(intersection.first, caseLabel);
       VERIFY(intersection.second == Rect(10, 25, 20, 35), caseLabel);
@@ -505,7 +505,7 @@ void testRectIntersect()
       Rect a{-30, 20, -10, 40};
       Rect b{-20, 25, -5, 35};
 
-      auto intersection = Intersect(a, b);
+      auto intersection = intersect(a, b);
 
       VERIFY(intersection.first, caseLabel);
       VERIFY(intersection.second == Rect(-20, 25, -10, 35), caseLabel);
@@ -516,7 +516,7 @@ void testRectIntersect()
       Rect a{10, 20, 30, 40};
       Rect b{15, 10, 25, 30};
 
-      auto intersection = Intersect(a, b);
+      auto intersection = intersect(a, b);
 
       VERIFY(intersection.first, caseLabel);
       VERIFY(intersection.second == Rect(15, 20, 25, 30), caseLabel);
@@ -527,7 +527,7 @@ void testRectIntersect()
       Rect a{10, -40, 30, -20};
       Rect b{15, -30, 25, -10};
 
-      auto intersection = Intersect(a, b);
+      auto intersection = intersect(a, b);
 
       VERIFY(intersection.first, caseLabel);
       VERIFY(intersection.second == Rect(15, -30, 25, -20), caseLabel);
@@ -537,7 +537,7 @@ void testRectIntersect()
       Rect a{10, 5, 30, 40};
       Rect b{15, 10, 25, 30};
 
-      auto intersection = Intersect(a, b);
+      auto intersection = intersect(a, b);
 
       VERIFY(intersection.first, caseLabel);
       VERIFY(intersection.second == b, caseLabel);
@@ -547,7 +547,7 @@ void testRectIntersect()
       Rect a{10, 5, 30, 40};
       Rect b{15, 50, 25, 60};
 
-      auto intersection = Intersect(a, b);
+      auto intersection = intersect(a, b);
 
       VERIFY(!intersection.first, caseLabel);
    }
@@ -557,7 +557,7 @@ void testRectIntersect()
       Rect a{10, 5, 30, 40};
       Rect b{-10, 10, 0, 30};
 
-      auto intersection = Intersect(a, b);
+      auto intersection = intersect(a, b);
 
       VERIFY(!intersection.first, caseLabel);
    }
@@ -566,7 +566,7 @@ void testRectIntersect()
       Rect a{10, 5, 30, 40};
       Rect b{-10, 50, 0, 60};
 
-      auto intersection = Intersect(a, b);
+      auto intersection = intersect(a, b);
 
       VERIFY(!intersection.first, caseLabel);
    }
@@ -581,7 +581,7 @@ void testRectUnite()
       Rect a{10, 20, 30, 40};
       Rect b{5, 25, 20, 35};
 
-      Rect united = Unite(a, b);
+      Rect united = unite(a, b);
 
       VERIFY(united == Rect(5, 20, 30, 40), caseLabel);
    }
@@ -591,7 +591,7 @@ void testRectUnite()
       Rect a{-30, 20, -10, 40};
       Rect b{-20, 25, -5, 35};
 
-      Rect united = Unite(a, b);
+      Rect united = unite(a, b);
 
       VERIFY(united == Rect(-30, 20, -5, 40), caseLabel);
    }
@@ -601,7 +601,7 @@ void testRectUnite()
       Rect a{10, 20, 30, 40};
       Rect b{15, 10, 25, 30};
 
-      Rect united = Unite(a, b);
+      Rect united = unite(a, b);
 
       VERIFY(united == Rect(10, 10, 30, 40), caseLabel);
    }
@@ -611,7 +611,7 @@ void testRectUnite()
       Rect a{10, -40, 30, -20};
       Rect b{15, -30, 25, -10};
 
-      Rect united = Unite(a, b);
+      Rect united = unite(a, b);
 
       VERIFY(united == Rect(10, -40, 30, -10), caseLabel);
    }
@@ -620,7 +620,7 @@ void testRectUnite()
       Rect a{10, 20, 30, 40};
       Rect b{-10, -5, -20, -35};
 
-      Rect united = Unite(a, b);
+      Rect united = unite(a, b);
 
       VERIFY(united == Rect(-10, -5, 30, 40), caseLabel);
    }
@@ -629,7 +629,7 @@ void testRectUnite()
       Rect a{10, 20, 30, 40};
       Rect b{12, 22, 28, 38};
 
-      Rect united = Unite(a, b);
+      Rect united = unite(a, b);
 
       VERIFY(united == a, caseLabel);
    }
