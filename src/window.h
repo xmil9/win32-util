@@ -89,6 +89,7 @@ class WIN32UTIL_API Window
    virtual bool onKillFocus(HWND /*focusedWnd*/) { return false; }
    virtual bool onHScroll(UINT scrollAction, UINT thumbPos, HWND scrollCtrl);
    virtual bool onVScroll(UINT scrollAction, UINT thumbPos, HWND scrollCtrl);
+   virtual bool onMouseMove(win32::Point mousePos, UINT virtKeyCode);
    virtual bool onMouseWheel(int delta, UINT keyState, Point mousePos);
    virtual bool onMouseHorzWheel(int delta, UINT keyState, Point mousePos);
    virtual bool onTimer(UINT_PTR /*timerId*/, TIMERPROC /*callback*/) { return false; }
@@ -158,6 +159,11 @@ inline bool Window::onHScroll(UINT /*scrollAction*/, UINT /*thumbPos*/,
 
 inline bool Window::onVScroll(UINT /*scrollAction*/, UINT /*thumbPos*/,
                               HWND /*scrollCtrl*/)
+{
+   return false;
+}
+
+inline bool Window::onMouseMove(win32::Point /*mousePos*/, UINT /*virtKeyCode*/)
 {
    return false;
 }

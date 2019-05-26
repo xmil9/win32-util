@@ -448,6 +448,13 @@ LRESULT Window::handleMessage(HWND hwnd, UINT msgId, WPARAM wParam, LPARAM lPara
          return 0;
       break;
    }
+   case WM_MOUSEMOVE:
+   {
+      const win32::Point mousePos{GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)};
+      if (onMouseMove(mousePos, static_cast<UINT>(wParam)))
+         return 0;
+      break;
+   }
    case WM_MOUSEWHEEL:
    {
       if (onMouseWheel(GET_WHEEL_DELTA_WPARAM(wParam), GET_KEYSTATE_WPARAM(wParam),
