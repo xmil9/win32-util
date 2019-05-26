@@ -80,6 +80,7 @@ class WIN32UTIL_API Window
    virtual bool onClose();
    virtual bool onNcPaint(HRGN /*updateRegion*/) { return false; }
    virtual bool onPaint() { return false; }
+   virtual bool onEraseBkgnd(HDC /*hdc*/) { return false; }
    virtual bool onSize(long width, long height, UINT resizeFlag);
    virtual bool onKeyDown(UINT virtKeyCode, UINT repeatCount, BYTE scanCode,
                           bool isExtendedKey, bool wasPreviouslyDown);

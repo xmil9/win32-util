@@ -394,6 +394,12 @@ LRESULT Window::handleMessage(HWND hwnd, UINT msgId, WPARAM wParam, LPARAM lPara
          return 0;
       break;
    }
+   case WM_ERASEBKGND:
+   {
+      if (onEraseBkgnd(reinterpret_cast<HDC>(wParam)))
+         return 1;
+      break;
+   }
    case WM_SIZE:
    {
       if (onSize(LOWORD(lParam), HIWORD(lParam), static_cast<UINT>(wParam)))
