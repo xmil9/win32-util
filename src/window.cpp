@@ -310,7 +310,7 @@ bool Window::registerWindowClass() const
    classInfo.cbWndExtra = 0;
    classInfo.hIcon = NULL;
    classInfo.hIconSm = 0;
-   classInfo.hCursor = ::LoadCursor(appInst, IDC_ARROW);
+   classInfo.hCursor = ::LoadCursor(NULL, IDC_ARROW);
    // Either a HBRUSH for the background, a std system color value + 1, or
    // NULL.
    // The '+ 1' makes sure COLOR_SCROLLBAR and NULL can be distinguished!
