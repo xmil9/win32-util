@@ -318,6 +318,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\message_util.h" />
+    <ClInclude Include="..\src\registry.h" />
     <ClInclude Include="..\src\win32_util_api.h" />
     <ClInclude Include="..\src\device_context.h" />
     <ClInclude Include="..\src\gdi_object.h" />
@@ -331,6 +332,7 @@
     <ClCompile Include="..\src\device_context.cpp" />
     <ClCompile Include="..\src\gdi_object.cpp" />
     <ClCompile Include="..\src\message_util.cpp" />
+    <ClCompile Include="..\src\registry.cpp" />
     <ClCompile Include="..\src\timer.cpp" />
     <ClCompile Include="..\src\window.cpp" />
   </ItemGroup>

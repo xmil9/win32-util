@@ -15,7 +15,7 @@ namespace win32
 ///////////////////
 
 // Wrapper for Win32 HWND handles.
-// Provides API to interact with windows. No ownership semantics.
+// Provides interface to interact with windows. No ownership semantics.
 // Destroying the window clears the internal hwnd handle.
 class WIN32UTIL_API Window
 {

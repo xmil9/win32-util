@@ -10,6 +10,7 @@
     <ClInclude Include="..\src\window.h" />
     <ClInclude Include="..\src\message_util.h" />
     <ClInclude Include="..\src\win32_windows.h" />
+    <ClInclude Include="..\src\registry.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\gdi_object.cpp" />
@@ -17,5 +18,6 @@
     <ClCompile Include="..\src\window.cpp" />
     <ClCompile Include="..\src\message_util.cpp" />
     <ClCompile Include="..\src\device_context.cpp" />
+    <ClCompile Include="..\src\registry.cpp" />
   </ItemGroup>
 </Project>
