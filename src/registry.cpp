@@ -7,9 +7,11 @@
 //
 #ifdef _WIN32
 #include "registry.h"
+#include "essentutils/src/string_util.h"
 #include <cassert>
 
 using namespace std;
+using namespace sutil;
 
 
 namespace
@@ -48,60 +50,6 @@ template <typename Int> bool writeInt(HKEY key, const std::wstring& entryName, I
    constexpr DWORD entryType = (sizeof(Int) == 4) ? REG_DWORD : REG_QWORD;
    const LSTATUS res = RegSetValueExW(key, entryName.c_str(), 0, entryType,
                                       reinterpret_cast<const BYTE*>(&val), sizeof(val));
-   return (res == ERROR_SUCCESS);
-}
-
-
-// Reads value of string type from given registry entry.
-template <typename Str>
-std::optional<Str> readStr(HKEY key, const std::wstring& entryName)
-{
-   static_assert(is_same_v<Str, std::string> || is_same_v<Str, std::wstring>);
-   using Char = typename Str::value_type;
-   static_assert(is_same_v<Char, char> || is_same_v<Char, wchar_t>);
-
-   if (!key)
-      return {};
-
-   DWORD numBytes = 0;
-   LSTATUS res =
-      RegQueryValueExW(key, entryName.c_str(), nullptr, nullptr, nullptr, &numBytes);
-   if (res != ERROR_SUCCESS)
-      return {};
-
-   constexpr size_t charBytes = sizeof(Char);
-   assert(numBytes % charBytes == 0);
-   const size_t strLen = numBytes / charBytes;
-
-   // '+ 1' for additional zero terminator to make sure the string is well formed.
-   vector<Char> buffer(strLen + 1);
-   DWORD numReadBytes = 0;
-   res = RegQueryValueExW(key, entryName.c_str(), nullptr, nullptr,
-                          reinterpret_cast<BYTE*>(buffer.data()), &numReadBytes);
-   if (res != ERROR_SUCCESS)
-      return {};
-
-   assert(numReadBytes == numBytes);
-   *buffer.rbegin() = 0;
-   return buffer.data();
-}
-
-
-// Writes value of string type to given registry entry.
-template <typename Str>
-bool writeStr(HKEY key, const std::wstring& entryName, const Str& val)
-{
-   static_assert(is_same_v<Str, std::string> || is_same_v<Str, std::wstring>);
-   using Char = typename Str::value_type;
-   static_assert(is_same_v<Char, char> || is_same_v<Char, wchar_t>);
-
-   if (!key)
-      return {};
-
-   const size_t numBytes = (val.size() + 1) * sizeof(Char);
-   const LSTATUS res = RegSetValueExW(key, entryName.c_str(), 0, REG_SZ,
-                                      reinterpret_cast<const BYTE*>(val.c_str()),
-                                      static_cast<DWORD>(numBytes));
    return (res == ERROR_SUCCESS);
 }
 
@@ -226,12 +174,60 @@ std::optional<int64_t> RegKey::readInt64(const std::wstring& entryName) const
 
 std::optional<std::string> RegKey::readString(const std::wstring& entryName) const
 {
-   return readStr<string>(m_key, entryName);
+   if (!m_key)
+      return {};
+
+   const string entryNameAnsi = utf8(entryName);
+
+   DWORD numBytes = 0;
+   LSTATUS res = RegQueryValueExA(m_key, entryNameAnsi.c_str(), nullptr, nullptr, nullptr,
+                                  &numBytes);
+   if (res != ERROR_SUCCESS)
+      return {};
+
+   constexpr size_t charBytes = sizeof(char);
+   assert(numBytes % charBytes == 0);
+   const size_t strLen = numBytes / charBytes;
+
+   // '+ 1' for additional zero terminator to make sure the string is well formed.
+   vector<char> buffer(strLen + 1);
+   DWORD numReadBytes = 0;
+   res = RegQueryValueExA(m_key, entryNameAnsi.c_str(), nullptr, nullptr,
+                          reinterpret_cast<BYTE*>(buffer.data()), &numReadBytes);
+   if (res != ERROR_SUCCESS)
+      return {};
+
+   assert(numReadBytes == numBytes);
+   *buffer.rbegin() = 0;
+   return buffer.data();
 }
 
 std::optional<std::wstring> RegKey::readWString(const std::wstring& entryName) const
 {
-   return readStr<wstring>(m_key, entryName);
+   if (!m_key)
+      return {};
+
+   DWORD numBytes = 0;
+   LSTATUS res =
+      RegQueryValueExW(m_key, entryName.c_str(), nullptr, nullptr, nullptr, &numBytes);
+   if (res != ERROR_SUCCESS)
+      return {};
+
+   constexpr size_t charBytes = sizeof(wchar_t);
+   assert(numBytes % charBytes == 0);
+   const size_t strLen = numBytes / charBytes;
+
+   // '+ 1' for additional zero terminator to make sure the string is well formed.
+   vector<wchar_t> buffer(strLen + 1);
+   DWORD numReadBytes = 0;
+   res = RegQueryValueExW(m_key, entryName.c_str(), nullptr, nullptr,
+                          reinterpret_cast<BYTE*>(buffer.data()), &numReadBytes);
+   if (res != ERROR_SUCCESS)
+      return {};
+
+   assert(numReadBytes == numBytes);
+   *buffer.rbegin() = 0;
+   return buffer.data();
 }
 
 
@@ -271,13 +267,27 @@ bool RegKey::writeInt64(const std::wstring& entryName, int64_t val) const
 
 bool RegKey::writeString(const std::wstring& entryName, const std::string& val) const
 {
-   return writeStr(m_key, entryName, val);
+   if (!m_key)
+      return {};
+
+   const size_t numBytes = (val.size() + 1) * sizeof(char);
+   const LSTATUS res = RegSetValueExA(m_key, utf8(entryName).c_str(), 0, REG_SZ,
+                                      reinterpret_cast<const BYTE*>(val.c_str()),
+                                      static_cast<DWORD>(numBytes));
+   return (res == ERROR_SUCCESS);
 }
 
 
 bool RegKey::writeWString(const std::wstring& entryName, const std::wstring& val) const
 {
-   return writeStr(m_key, entryName, val);
+   if (!m_key)
+      return {};
+
+   const size_t numBytes = (val.size() + 1) * sizeof(wchar_t);
+   const LSTATUS res = RegSetValueExW(m_key, entryName.c_str(), 0, REG_SZ,
+                                      reinterpret_cast<const BYTE*>(val.c_str()),
+                                      static_cast<DWORD>(numBytes));
+   return (res == ERROR_SUCCESS);
 }
 
 

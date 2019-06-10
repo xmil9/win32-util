@@ -407,6 +407,184 @@ void testRegKeyRemoveKey()
    }
 }
 
+
+void testRegKeyReadInt32()
+{
+   {
+      const string caseLabel{"RegKey::readInt32 for existing value"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt32";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const wstring entryName = L"Int32";
+      const int32_t val = 42;
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         setup.writeInt32(entryName, val);
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const optional<int32_t> res = rk.readInt32(entryName);
+      VERIFY(res.has_value(), caseLabel);
+      VERIFY(res.value() == val, caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::readInt32 for not existing value"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt32";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const wstring entryName = L"Int32";
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const optional<int32_t> res = rk.readInt32(entryName);
+      VERIFY(!res.has_value(), caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::readInt32 for value of other type"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt32";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const wstring entryName = L"Int32";
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         setup.writeString(entryName, "wrong type");
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const optional<int32_t> res = rk.readInt32(entryName);
+      VERIFY(!res.has_value(), caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+}
+
+
+void testRegKeyReadInt64()
+{
+   {
+      const string caseLabel{"RegKey::readInt64 for existing value"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt64";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const wstring entryName = L"Int64";
+      const int64_t val = 42;
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         setup.writeInt64(entryName, val);
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const optional<int64_t> res = rk.readInt64(entryName);
+      VERIFY(res.has_value(), caseLabel);
+      VERIFY(res.value() == val, caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::readInt64 for not existing value"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt64";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const wstring entryName = L"Int64";
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const optional<int64_t> res = rk.readInt64(entryName);
+      VERIFY(!res.has_value(), caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::readInt64 for value of other type"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt64";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const wstring entryName = L"Int64";
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         setup.writeString(entryName, "wrong type");
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const optional<int64_t> res = rk.readInt64(entryName);
+      VERIFY(!res.has_value(), caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+}
+
+
+void testRegKeyReadString()
+{
+   {
+      const string caseLabel{"RegKey::readString for existing value"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const wstring entryName = L"String";
+      const string val = "test";
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         setup.writeString(entryName, val);
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const optional<string> res = rk.readString(entryName);
+      VERIFY(res.has_value(), caseLabel);
+      VERIFY(res.value() == val, caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::readString for not existing value"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const wstring entryName = L"String";
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const optional<string> res = rk.readString(entryName);
+      VERIFY(!res.has_value(), caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::readString for empty string"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const wstring entryName = L"String";
+      const string val = "";
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         setup.writeString(entryName, val);
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const optional<string> res = rk.readString(entryName);
+      VERIFY(res.has_value(), caseLabel);
+      VERIFY(res.value() == val, caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::readString for value of other type"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const wstring entryName = L"String";
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         setup.writeInt32(entryName, 1);
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const optional<string> res = rk.readString(entryName);
+      VERIFY(!res.has_value(), caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+}
+
 } // namespace
 
 
@@ -429,4 +607,7 @@ void testRegistry()
    testRegKeyWasOpened();
    testRegKeyKeyExists();
    testRegKeyRemoveKey();
+   testRegKeyReadInt32();
+   testRegKeyReadInt64();
+   testRegKeyReadString();
 }

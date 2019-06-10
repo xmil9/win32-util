@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "win32_util_tests", "..\test
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "win32_util", "win32_util.vcxproj", "{D00761BD-4896-40BA-97AF-5442729B11FF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "essentutils", "..\dependencies\essentutils\project\vs2019\essentutils.vcxproj", "{1C70FF5C-CDC9-426E-9C6A-922919183BAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Dll|x64 = Debug Dll|x64
@@ -51,6 +53,22 @@ Global
 		{D00761BD-4896-40BA-97AF-5442729B11FF}.Release Lib|x64.Build.0 = Release Lib|x64
 		{D00761BD-4896-40BA-97AF-5442729B11FF}.Release Lib|x86.ActiveCfg = Release Lib|Win32
 		{D00761BD-4896-40BA-97AF-5442729B11FF}.Release Lib|x86.Build.0 = Release Lib|Win32
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Debug Dll|x64.ActiveCfg = Debug DLL|x64
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Debug Dll|x64.Build.0 = Debug DLL|x64
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Debug Dll|x86.ActiveCfg = Debug DLL|Win32
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Debug Dll|x86.Build.0 = Debug DLL|Win32
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Debug Lib|x64.ActiveCfg = Debug Lib|x64
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Debug Lib|x64.Build.0 = Debug Lib|x64
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Debug Lib|x86.ActiveCfg = Debug Lib|Win32
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Debug Lib|x86.Build.0 = Debug Lib|Win32
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Release Dll|x64.ActiveCfg = Release DLL|x64
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Release Dll|x64.Build.0 = Release DLL|x64
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Release Dll|x86.ActiveCfg = Release DLL|Win32
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Release Dll|x86.Build.0 = Release DLL|Win32
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Release Lib|x64.ActiveCfg = Release Lib|x64
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Release Lib|x64.Build.0 = Release Lib|x64
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Release Lib|x86.ActiveCfg = Release Lib|Win32
+		{1C70FF5C-CDC9-426E-9C6A-922919183BAB}.Release Lib|x86.Build.0 = Release Lib|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
