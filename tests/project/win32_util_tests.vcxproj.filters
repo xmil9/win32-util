@@ -45,6 +45,9 @@
     <ClInclude Include="..\src\timer_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\registry_tests.h">
+      <Filter>tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\win32_util_tests.cpp" />
@@ -69,6 +72,9 @@
       <Filter>tests</Filter>
     </ClCompile>
     <ClCompile Include="..\src\timer_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\registry_tests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
   </ItemGroup>
