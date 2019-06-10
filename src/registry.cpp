@@ -124,6 +124,30 @@ RegKey::~RegKey()
 }
 
 
+RegKey::RegKey(RegKey&& other) noexcept
+{
+   swap(*this, other);
+}
+
+
+RegKey& RegKey::operator=(RegKey&& other) noexcept
+{
+   m_key = other.m_key;
+   m_created = other.m_created;
+   // Make sure dtor of moved-from object does nothing.
+   other.m_key = NULL;
+   other.m_created = false;
+   return *this;
+}
+
+
+void swap(RegKey& a, RegKey& b) noexcept
+{
+   std::swap(a.m_key, b.m_key);
+   std::swap(a.m_created, b.m_created);
+}
+
+
 bool RegKey::create(HKEY parent, const std::wstring& keyPath, REGSAM accessRights)
 {
    close();
@@ -163,6 +187,28 @@ void RegKey::close()
       RegCloseKey(m_key);
       m_key = NULL;
    }
+}
+
+
+void RegKey::clear()
+{
+   m_key = NULL;
+   m_created = false;
+}
+
+
+bool RegKey::keyExists(HKEY parent, const std::wstring& keyPath)
+{
+   RegKey key;
+   return key.open(parent, keyPath, KEY_READ);
+}
+
+
+bool RegKey::removeKey(HKEY parent, const std::wstring& keyPath, bool wow64Bit)
+{
+   const LSTATUS res = RegDeleteKeyExW(parent, keyPath.c_str(),
+                                       wow64Bit ? KEY_WOW64_64KEY : KEY_WOW64_32KEY, 0);
+   return (res == ERROR_SUCCESS);
 }
 
 
@@ -245,6 +291,17 @@ bool RegKey::writeWBinary(const std::wstring& entryName, const BYTE* data,
                                       static_cast<DWORD>(numBytes));
    return (res == ERROR_SUCCESS);
 }
+
+
+bool RegKey::removeEntry(const std::wstring& entryName) const
+{
+   if (!m_key)
+      return {};
+
+   const LSTATUS res = RegDeleteValueW(m_key, entryName.c_str());
+   return (res == ERROR_SUCCESS);
+}
+
 
 std::size_t RegKey::countSubkeys() const
 {
