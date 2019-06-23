@@ -2,7 +2,7 @@
 #ifdef _WIN32
 #include "device_context.h"
 #include "geometry.h"
-#include "string_util.h"
+#include "tstring.h"
 #include "win32_util_api.h"
 #include "win32_windows.h"
 #include <string>

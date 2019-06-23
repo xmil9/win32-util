@@ -7,7 +7,7 @@
 //
 #ifdef _WIN32
 #include "registry.h"
-#include "essentutils/src/string_util.h"
+#include "string_util.h"
 #include <cassert>
 
 using namespace std;
@@ -29,9 +29,11 @@ std::optional<Int> readInt(HKEY key, const std::wstring& entryName)
 
    Int value = 0;
    DWORD numBytes = sizeof(value);
-   const LSTATUS res = RegQueryValueExW(key, entryName.c_str(), nullptr, nullptr,
+   DWORD entryType = REG_NONE;
+   const LSTATUS res = RegQueryValueExW(key, entryName.c_str(), nullptr, &entryType,
                                         reinterpret_cast<BYTE*>(&value), &numBytes);
-   if (res != ERROR_SUCCESS)
+   constexpr DWORD expectedEntryType = (sizeof(Int) == 4) ? REG_DWORD : REG_QWORD;
+   if (res != ERROR_SUCCESS || entryType != expectedEntryType)
       return {};
 
    assert(numBytes == sizeof(value));
@@ -180,9 +182,10 @@ std::optional<std::string> RegKey::readString(const std::wstring& entryName) con
    const string entryNameAnsi = utf8(entryName);
 
    DWORD numBytes = 0;
-   LSTATUS res = RegQueryValueExA(m_key, entryNameAnsi.c_str(), nullptr, nullptr, nullptr,
-                                  &numBytes);
-   if (res != ERROR_SUCCESS)
+   DWORD entryType = REG_NONE;
+   LSTATUS res = RegQueryValueExA(m_key, entryNameAnsi.c_str(), nullptr, &entryType,
+                                  nullptr, &numBytes);
+   if (res != ERROR_SUCCESS || entryType != REG_SZ)
       return {};
 
    constexpr size_t charBytes = sizeof(char);
@@ -190,11 +193,11 @@ std::optional<std::string> RegKey::readString(const std::wstring& entryName) con
    const size_t strLen = numBytes / charBytes;
 
    // '+ 1' for additional zero terminator to make sure the string is well formed.
-   vector<char> buffer(strLen + 1);
-   DWORD numReadBytes = 0;
+   vector<char> buffer(strLen + 1, 0);
+   DWORD numReadBytes = static_cast<DWORD>(buffer.size());
    res = RegQueryValueExA(m_key, entryNameAnsi.c_str(), nullptr, nullptr,
                           reinterpret_cast<BYTE*>(buffer.data()), &numReadBytes);
-   if (res != ERROR_SUCCESS)
+   if (res != ERROR_SUCCESS || numReadBytes != numBytes)
       return {};
 
    assert(numReadBytes == numBytes);
@@ -208,9 +211,10 @@ std::optional<std::wstring> RegKey::readWString(const std::wstring& entryName) c
       return {};
 
    DWORD numBytes = 0;
+   DWORD entryType = REG_NONE;
    LSTATUS res =
-      RegQueryValueExW(m_key, entryName.c_str(), nullptr, nullptr, nullptr, &numBytes);
-   if (res != ERROR_SUCCESS)
+      RegQueryValueExW(m_key, entryName.c_str(), nullptr, &entryType, nullptr, &numBytes);
+   if (res != ERROR_SUCCESS || entryType != REG_SZ)
       return {};
 
    constexpr size_t charBytes = sizeof(wchar_t);
@@ -219,10 +223,10 @@ std::optional<std::wstring> RegKey::readWString(const std::wstring& entryName) c
 
    // '+ 1' for additional zero terminator to make sure the string is well formed.
    vector<wchar_t> buffer(strLen + 1);
-   DWORD numReadBytes = 0;
+   DWORD numReadBytes = static_cast<DWORD>(buffer.size()) * sizeof(wchar_t);
    res = RegQueryValueExW(m_key, entryName.c_str(), nullptr, nullptr,
                           reinterpret_cast<BYTE*>(buffer.data()), &numReadBytes);
-   if (res != ERROR_SUCCESS)
+   if (res != ERROR_SUCCESS || numReadBytes != numBytes)
       return {};
 
    assert(numReadBytes == numBytes);
@@ -235,19 +239,23 @@ std::size_t RegKey::readBinary(const std::wstring& entryName,
                                std::function<BYTE*(std::size_t)> getBuffer) const
 {
    if (!m_key)
-      return {};
+      return 0;
 
    DWORD numBytes = 0;
+   DWORD entryType = REG_NONE;
    LSTATUS res =
-      RegQueryValueExW(m_key, entryName.c_str(), nullptr, nullptr, nullptr, &numBytes);
-   if (res != ERROR_SUCCESS)
-      return {};
+      RegQueryValueExW(m_key, entryName.c_str(), nullptr, &entryType, nullptr, &numBytes);
+   if (res != ERROR_SUCCESS || entryType != REG_BINARY)
+      return 0;
 
-   DWORD numReadBytes = 0;
-   res = RegQueryValueExW(m_key, entryName.c_str(), nullptr, nullptr, getBuffer(numBytes),
-                          &numReadBytes);
-   if (res != ERROR_SUCCESS)
-      return {};
+   BYTE* buffer = getBuffer(numBytes);
+   if (!buffer)
+      return 0;
+   DWORD numReadBytes = numBytes;
+   res =
+      RegQueryValueExW(m_key, entryName.c_str(), nullptr, nullptr, buffer, &numReadBytes);
+   if (res != ERROR_SUCCESS || numReadBytes != numBytes)
+      return 0;
 
    return numReadBytes;
 }
@@ -291,8 +299,8 @@ bool RegKey::writeWString(const std::wstring& entryName, const std::wstring& val
 }
 
 
-bool RegKey::writeWBinary(const std::wstring& entryName, const BYTE* data,
-                          std::size_t numBytes) const
+bool RegKey::writeBinary(const std::wstring& entryName, const BYTE* data,
+                         std::size_t numBytes) const
 {
    if (!m_key)
       return {};

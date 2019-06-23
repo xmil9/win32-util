@@ -1,6 +1,6 @@
 #pragma once
 #ifdef _WIN32
-#include "string_util.h"
+#include "tstring.h"
 #include "win32_util_api.h"
 #include "win32_windows.h"
 

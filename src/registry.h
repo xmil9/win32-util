@@ -55,14 +55,16 @@ class WIN32UTIL_API RegKey
    std::optional<int64_t> readInt64(const std::wstring& entryName) const;
    std::optional<std::string> readString(const std::wstring& entryName) const;
    std::optional<std::wstring> readWString(const std::wstring& entryName) const;
+   // Reads binary data from given entry. The function given as second argument has
+   // to return a pointer to a buffer of given size in bytes or return null.
    std::size_t readBinary(const std::wstring& entryName,
                           std::function<BYTE*(std::size_t)> getBuffer) const;
    bool writeInt32(const std::wstring& entryName, int32_t val) const;
    bool writeInt64(const std::wstring& entryName, int64_t val) const;
    bool writeString(const std::wstring& entryName, const std::string& val) const;
    bool writeWString(const std::wstring& entryName, const std::wstring& val) const;
-   bool writeWBinary(const std::wstring& entryName, const BYTE* data,
-                     std::size_t numBytes) const;
+   bool writeBinary(const std::wstring& entryName, const BYTE* data,
+                    std::size_t numBytes) const;
 
    bool removeEntry(const std::wstring& entryName) const;
    std::size_t countSubkeys() const;
