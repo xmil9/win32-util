@@ -18,69 +18,69 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\targetver.h" />
     <ClInclude Include="..\resources\resource.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\test_runner_window.h" />
-    <ClInclude Include="..\src\test_util.h" />
-    <ClInclude Include="..\src\device_context_tests.h">
+    <ClInclude Include="..\test_runner_window.h" />
+    <ClInclude Include="..\test_util.h" />
+    <ClInclude Include="..\device_context_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\gdi_object_tests.h">
+    <ClInclude Include="..\gdi_object_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\geometry_tests.h">
+    <ClInclude Include="..\geometry_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\message_util_tests.h">
+    <ClInclude Include="..\message_util_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\window_tests.h">
+    <ClInclude Include="..\registry_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\timer_tests.h">
+    <ClInclude Include="..\timer_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\registry_tests.h">
+    <ClInclude Include="..\tstring_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\tstring_tests.h">
+    <ClInclude Include="..\window_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\src\win32_util_tests.cpp" />
-    <ClCompile Include="..\src\test_runner_window.cpp" />
-    <ClCompile Include="..\src\test_util.cpp" />
-    <ClCompile Include="..\src\device_context_tests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\gdi_object_tests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\geometry_tests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\message_util_tests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\window_tests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\timer_tests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\registry_tests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\tstring_tests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
+    <ClInclude Include="..\targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resources\win32_util_tests.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\test_runner_window.cpp" />
+    <ClCompile Include="..\test_util.cpp" />
+    <ClCompile Include="..\win32_util_tests.cpp" />
+    <ClCompile Include="..\device_context_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\gdi_object_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\geometry_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\message_util_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\registry_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\timer_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tstring_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\window_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
