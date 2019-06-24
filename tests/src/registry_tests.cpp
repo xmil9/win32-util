@@ -33,7 +33,7 @@ bool createKey(HKEY parent, const std::wstring& keyPath)
 
 bool deleteKey(HKEY parent, const std::wstring& keyPath)
 {
-   const LSTATUS res = RegDeleteKeyExW(parent, keyPath.c_str(), KEY_WOW64_64KEY, 0);
+   const LSTATUS res = RegDeleteTreeW(parent, keyPath.c_str());
    return (res == ERROR_SUCCESS);
 }
 
@@ -404,6 +404,26 @@ void testRegKeyRemoveKey()
       const bool res = RegKey::removeKey(HKEY_CURRENT_USER, keyPath);
       VERIFY(!res, caseLabel);
       VERIFY(!RegKey::keyExists(HKEY_CURRENT_USER, keyPath), caseLabel);
+   }
+   {
+      const string caseLabel{"RegKey::removeKey for key with subkeys"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyRemoveKey";
+
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         const vector<wstring> subkeys{L"sub1", L"sub2", L"sub3"};
+         for (const wstring& keyName : subkeys)
+         {
+            RegKey subkey;
+            subkey.create(setup, keyName);
+         }
+      }
+
+      const bool res = RegKey::removeKey(HKEY_CURRENT_USER, keyPath);
+      VERIFY(res, caseLabel);
+      VERIFY(!RegKey::keyExists(HKEY_CURRENT_USER, keyPath), caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
    }
 }
 
@@ -969,6 +989,235 @@ void testRegKeyRemoveEntry()
    }
 }
 
+
+void testRegKeyCountSubkeys()
+{
+   {
+      const string caseLabel{"RegKey::countSubkeys for multiple subkeys"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountSubkeys";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const vector<wstring> subkeys{L"sub1", L"sub2", L"sub3"};
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         for (const wstring& keyName : subkeys)
+         {
+            RegKey subkey;
+            subkey.create(setup, keyName);
+         }
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const size_t numSubkeys = rk.countSubkeys();
+      VERIFY(numSubkeys == subkeys.size(), caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::countSubkeys for single subkey"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountSubkeys";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         RegKey subkey{setup, L"sub1"};
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const size_t numSubkeys = rk.countSubkeys();
+      VERIFY(numSubkeys == 1, caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::countSubkeys for no subkeys"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountSubkeys";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const size_t numSubkeys = rk.countSubkeys();
+      VERIFY(numSubkeys == 0, caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+}
+
+
+void testRegKeySubkeyNames()
+{
+   {
+      const string caseLabel{"RegKey::subkeyNames for multiple subkeys"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeySubkeyNames";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const vector<wstring> subkeys{L"sub1", L"sub2", L"sub3"};
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         for (const wstring& keyName : subkeys)
+         {
+            RegKey subkey;
+            subkey.create(setup, keyName);
+         }
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const vector<wstring> res = rk.subkeyNames();
+      VERIFY(res == subkeys, caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::subkeyNames for single subkey"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeySubkeyNames";
+      createKey(HKEY_CURRENT_USER, keyPath);
+   
+      const vector<wstring> subkeys{L"sub1"};
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         for (const wstring& keyName : subkeys)
+         {
+            RegKey subkey;
+            subkey.create(setup, keyName);
+         }
+      }
+   
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const vector<wstring> res = rk.subkeyNames();
+      VERIFY(res == subkeys, caseLabel);
+   
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::subkeyNames for no subkeys"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeySubkeyNames";
+      createKey(HKEY_CURRENT_USER, keyPath);
+   
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+      }
+   
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const vector<wstring> res = rk.subkeyNames();
+      VERIFY(res.empty(), caseLabel);
+   
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+}
+
+
+void testRegKeyCountEntries()
+{
+   {
+      const string caseLabel{"RegKey::countEntries for multiple entries"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountEntries";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const vector<wstring> entries{L"entry1", L"entry2", L"entry3"};
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         for (const wstring& entryName : entries)
+            setup.writeInt32(entryName, 1);
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const size_t numEntries = rk.countEntries();
+      VERIFY(numEntries == entries.size(), caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::countEntries for single entry"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountEntries";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         setup.writeInt32(L"entry", 1);
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const size_t numEntries = rk.countEntries();
+      VERIFY(numEntries == 1, caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::countEntries for no entries"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountEntries";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const size_t numEntries = rk.countEntries();
+      VERIFY(numEntries == 0, caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+}
+
+
+void testRegKeyEntryNames()
+{
+   {
+      const string caseLabel{"RegKey::entryNames for multiple entries"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyEntryNames";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const vector<wstring> entries{L"entry1", L"entry2", L"entry3"};
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         for (const wstring& entryName : entries)
+            setup.writeInt32(entryName, 1);
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const vector<wstring> res = rk.entryNames();
+      VERIFY(res == entries, caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::entryNames for single entry"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyEntryNames";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      const vector<wstring> entries{L"entry1"};
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+         for (const wstring& entryName : entries)
+            setup.writeInt32(entryName, 1);
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const vector<wstring> res = rk.entryNames();
+      VERIFY(res == entries, caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+   {
+      const string caseLabel{"RegKey::entryNames for no entries"};
+      const wstring keyPath = TestsKeyPath + L"\\RegKeyEntryNames";
+      createKey(HKEY_CURRENT_USER, keyPath);
+
+      {
+         RegKey setup{HKEY_CURRENT_USER, keyPath};
+      }
+
+      RegKey rk{HKEY_CURRENT_USER, keyPath};
+      const vector<wstring> res = rk.entryNames();
+      VERIFY(res.empty(), caseLabel);
+
+      deleteKey(HKEY_CURRENT_USER, keyPath);
+   }
+}
+
 } // namespace
 
 
@@ -1002,4 +1251,8 @@ void testRegistry()
    testRegKeyWriteWString();
    testRegKeyWriteBinary();
    testRegKeyRemoveEntry();
+   testRegKeyCountSubkeys();
+   testRegKeySubkeyNames();
+   testRegKeyCountEntries();
+   testRegKeyEntryNames();
 }
