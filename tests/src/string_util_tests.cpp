@@ -1,5 +1,5 @@
 #include "string_util_tests.h"
-#include "string_util.h"
+#include "tstring.h"
 #include "test_util.h"
 #include <tchar.h>
 

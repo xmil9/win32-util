@@ -7,7 +7,7 @@
 //
 #ifdef _WIN32
 #include "registry.h"
-#include "string_util.h"
+#include "essentutils/string_util.h"
 #include <cassert>
 
 using namespace std;

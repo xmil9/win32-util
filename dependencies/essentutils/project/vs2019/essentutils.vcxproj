@@ -35,13 +35,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\string_util.cpp" />
+    <ClInclude Include="..\..\color.h" />
+    <ClInclude Include="..\..\generic_string_util.h" />
+    <ClInclude Include="..\..\string_util.h" />
+    <ClInclude Include="..\..\sutils_api.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\color.h" />
-    <ClInclude Include="..\..\src\generic_string_util.h" />
-    <ClInclude Include="..\..\src\sutils_api.h" />
-    <ClInclude Include="..\..\src\string_util.h" />
+    <ClCompile Include="..\..\string_util.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

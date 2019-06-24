@@ -2,7 +2,7 @@
 // essentutils
 // Generic versions of the string utilities.
 // The generic utilities can be used directly but template parameter deduction for
-// string literals fails because the deduced type is a chararter array. Specifying
+// string literals fails because the deduced type is a character array. Specifying
 // the template parameter type works, e.g. startsWith<std::string>("aaa", "aa"), but
 // is less convenient to use than the functions in string_util.h/cpp.
 // The fully generic string utility functions basically serve as implementation for
