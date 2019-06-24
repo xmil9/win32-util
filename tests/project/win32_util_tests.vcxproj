@@ -46,25 +46,25 @@
     <ClInclude Include="..\src\device_context_tests.h" />
     <ClInclude Include="..\src\message_util_tests.h" />
     <ClInclude Include="..\src\registry_tests.h" />
-    <ClInclude Include="..\src\string_util_tests.h" />
     <ClInclude Include="..\src\targetver.h" />
     <ClInclude Include="..\src\test_util.h" />
     <ClInclude Include="..\src\gdi_object_tests.h" />
     <ClInclude Include="..\src\geometry_tests.h" />
     <ClInclude Include="..\src\test_runner_window.h" />
     <ClInclude Include="..\src\timer_tests.h" />
+    <ClInclude Include="..\src\tstring_tests.h" />
     <ClInclude Include="..\src\window_tests.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\device_context_tests.cpp" />
     <ClCompile Include="..\src\message_util_tests.cpp" />
     <ClCompile Include="..\src\registry_tests.cpp" />
-    <ClCompile Include="..\src\string_util_tests.cpp" />
     <ClCompile Include="..\src\test_runner_window.cpp" />
     <ClCompile Include="..\src\test_util.cpp" />
     <ClCompile Include="..\src\gdi_object_tests.cpp" />
     <ClCompile Include="..\src\geometry_tests.cpp" />
     <ClCompile Include="..\src\timer_tests.cpp" />
+    <ClCompile Include="..\src\tstring_tests.cpp" />
     <ClCompile Include="..\src\win32_util_tests.cpp" />
     <ClCompile Include="..\src\window_tests.cpp" />
   </ItemGroup>

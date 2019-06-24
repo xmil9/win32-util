@@ -1,4 +1,4 @@
-#include "string_util_tests.h"
+#include "tstring_tests.h"
 #include "tstring.h"
 #include "test_util.h"
 #include <tchar.h>
@@ -151,7 +151,7 @@ void testToString()
 } // namespace
 
 
-void testStringUtil(HWND /*testRunnerWnd*/)
+void testTString(HWND /*testRunnerWnd*/)
 {
    testStringTraitsForWchar_t();
    testStringTraitsForChar();

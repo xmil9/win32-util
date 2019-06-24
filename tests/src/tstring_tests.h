@@ -2,4 +2,4 @@
 #include "win32_windows.h"
 
 
-void testStringUtil(HWND testRunnerWnd);
+void testTString(HWND testRunnerWnd);

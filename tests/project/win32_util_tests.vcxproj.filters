@@ -27,9 +27,6 @@
     <ClInclude Include="..\src\device_context_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\string_util_tests.h">
-      <Filter>tests</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\gdi_object_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
@@ -48,15 +45,15 @@
     <ClInclude Include="..\src\registry_tests.h">
       <Filter>tests</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\tstring_tests.h">
+      <Filter>tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\win32_util_tests.cpp" />
     <ClCompile Include="..\src\test_runner_window.cpp" />
     <ClCompile Include="..\src\test_util.cpp" />
     <ClCompile Include="..\src\device_context_tests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\string_util_tests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
     <ClCompile Include="..\src\gdi_object_tests.cpp">
@@ -75,6 +72,9 @@
       <Filter>tests</Filter>
     </ClCompile>
     <ClCompile Include="..\src\registry_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tstring_tests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
   </ItemGroup>
