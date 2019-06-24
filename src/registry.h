@@ -49,7 +49,7 @@ class WIN32UTIL_API RegKey
    bool wasCreated() const;
    bool wasOpened() const;
    static bool keyExists(HKEY parent, const std::wstring& keyPath);
-   static bool removeKey(HKEY parent, const std::wstring& keyPath, bool wow64Bit = true);
+   static bool removeKey(HKEY parent, const std::wstring& keyPath);
 
    std::optional<int32_t> readInt32(const std::wstring& entryName) const;
    std::optional<int64_t> readInt64(const std::wstring& entryName) const;

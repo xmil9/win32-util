@@ -154,10 +154,9 @@ bool RegKey::keyExists(HKEY parent, const std::wstring& keyPath)
 }
 
 
-bool RegKey::removeKey(HKEY parent, const std::wstring& keyPath, bool wow64Bit)
+bool RegKey::removeKey(HKEY parent, const std::wstring& keyPath)
 {
-   const LSTATUS res = RegDeleteKeyExW(parent, keyPath.c_str(),
-                                       wow64Bit ? KEY_WOW64_64KEY : KEY_WOW64_32KEY, 0);
+   const LSTATUS res = RegDeleteTreeW(parent, keyPath.c_str());
    return (res == ERROR_SUCCESS);
 }
 
@@ -365,7 +364,7 @@ std::vector<std::wstring> RegKey::subkeyNames() const
    }
 
    if (res == ERROR_SUCCESS || res == ERROR_NO_MORE_ITEMS)
-      subkeys;
+      return subkeys;
    return {};
 }
 
@@ -414,7 +413,7 @@ std::vector<std::wstring> RegKey::entryNames() const
    }
 
    if (res == ERROR_SUCCESS || res == ERROR_NO_MORE_ITEMS)
-      entries;
+      return entries;
    return {};
 }
 
