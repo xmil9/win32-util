@@ -46,7 +46,7 @@ namespace detail
 ///////////////////
 
 // Returns error text for given Win32 error code.
-String winErrorNativeText(DWORD errCode)
+TString winErrorNativeText(DWORD errCode)
 {
    // Pointer to a buffer that will be allocated by FormatMessage().
    TCHAR* buffer = nullptr;
@@ -60,13 +60,13 @@ String winErrorNativeText(DWORD errCode)
    // FormatMessage documentation states to free returned memory with LocalFree.
    LocalFreeGuard memGuard(buffer);
 
-   String errText = buffer;
+   TString errText = buffer;
 
    // Win32 API error messages sometimes contain newline character sequences at
    // the end. Strip them off.
-   const String Newline = _T("\x0d\x0a");
-   const String::size_type pos = errText.rfind(Newline);
-   if (pos != String::npos)
+   const TString Newline = _T("\x0d\x0a");
+   const TString::size_type pos = errText.rfind(Newline);
+   if (pos != TString::npos)
       errText.replace(pos, Newline.size(), _T(""));
 
    return errText;

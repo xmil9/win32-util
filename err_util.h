@@ -14,7 +14,7 @@
 #include <comdef.h>
 
 namespace win32::detail {
-WIN32UTIL_API String winErrorNativeText(DWORD errCode);
+WIN32UTIL_API TString winErrorNativeText(DWORD errCode);
 }
 
 

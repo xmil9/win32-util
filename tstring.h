@@ -9,7 +9,7 @@ namespace win32
 ///////////////////
 
 // Std string type based on TCHAR type.
-using String = std::basic_string<TCHAR>;
+using TString = std::basic_string<TCHAR>;
 
 // String traits for wchar_t.
 template <typename Char> struct StringTraits
@@ -40,7 +40,7 @@ template <> struct StringTraits<char>
 };
 
 // Selects between std::to_string() and std::to_wstring() calls based on the TCHAR type.
-template <typename Val> String to_string(Val val)
+template <typename Val> TString to_string(Val val)
 {
    return StringTraits<TCHAR>::to_string(val);
 }

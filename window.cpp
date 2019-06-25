@@ -109,7 +109,7 @@ Point decodeMousePosition(LPARAM lParam)
 namespace win32
 {
 
-bool Window::create(HWND parent, const Rect& bounds, const String& title,
+bool Window::create(HWND parent, const Rect& bounds, const TString& title,
                     unsigned long style, unsigned long extStyle)
 {
    registerWindowClass();
@@ -213,7 +213,7 @@ HWND Window::owner() const
 }
 
 
-String Window::title() const
+TString Window::title() const
 {
    if (!hwnd())
       return {};
@@ -224,7 +224,7 @@ String Window::title() const
 }
 
 
-void Window::setTitle(const String& title)
+void Window::setTitle(const TString& title)
 {
    if (hwnd())
       ::SetWindowText(hwnd(), title.c_str());

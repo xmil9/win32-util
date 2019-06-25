@@ -478,7 +478,7 @@ void testWindowTitle(HWND testRunnerWnd)
 {
    {
       const std::string caseLabel{"Window::title for overlapped window"};
-      const String title = _T("Test window");
+      const TString title = _T("Test window");
       Window wnd;
       wnd.create(testRunnerWnd, {100, 100, 400, 300}, title, WS_OVERLAPPEDWINDOW, 0);
       VERIFY(wnd.title() == title, caseLabel);
@@ -494,7 +494,7 @@ void testWindowSetTitle(HWND testRunnerWnd)
       Window wnd;
       wnd.create(testRunnerWnd, {100, 100, 400, 300}, _T("Original title"),
                  WS_OVERLAPPEDWINDOW, 0);
-      const String title = _T("New title");
+      const TString title = _T("New title");
       wnd.setTitle(title);
       VERIFY(wnd.title() == title, caseLabel);
       wnd.closeImmediately();

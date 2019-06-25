@@ -33,7 +33,7 @@ class WIN32UTIL_API Window
    friend void swap(Window& a, Window& b) noexcept;
 
    HWND hwnd() const;
-   bool create(HWND parent, const Rect& bounds, const String& title, unsigned long style,
+   bool create(HWND parent, const Rect& bounds, const TString& title, unsigned long style,
                unsigned long extStyle = 0);
    // Posts WM_CLOSE message.
    void close();
@@ -49,8 +49,8 @@ class WIN32UTIL_API Window
    SharedDC windowDC() const;
    HWND parent() const;
    HWND owner() const;
-   String title() const;
-   void setTitle(const String& title);
+   TString title() const;
+   void setTitle(const TString& title);
    void inval(bool erase);
    void inval(const win32::Rect& bounds, bool erase);
    std::pair<bool, Rect> invalBounds() const;
