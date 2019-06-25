@@ -48,6 +48,9 @@
       <Filter>tests</Filter>
     </ClInclude>
     <ClInclude Include="..\targetver.h" />
+    <ClInclude Include="..\err_util_tests.h">
+      <Filter>tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resources\win32_util_tests.rc">
@@ -80,6 +83,9 @@
       <Filter>tests</Filter>
     </ClCompile>
     <ClCompile Include="..\window_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\err_util_tests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,5 +1,6 @@
 #include "test_runner_window.h"
 #include "device_context_tests.h"
+#include "err_util_tests.h"
 #include "gdi_object_tests.h"
 #include "geometry_tests.h"
 #include "message_util_tests.h"
@@ -27,6 +28,7 @@ void TestRunnerWindow::onRunTests()
 {
    HWND runnerWnd = hwnd();
    testDeviceContext(runnerWnd);
+   testErrUtil();
    testGdiObject(runnerWnd);
    testGeometry(runnerWnd);
    testMessageUtil(runnerWnd);
