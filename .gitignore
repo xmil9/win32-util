@@ -58,8 +58,13 @@
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
+[Dd]ebug D[Ll][Ll]/
+[Dd]ebug Lib/
+[Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+[Rr]elease D[Ll][Ll]/
+[Rr]elease Lib/
 x64/
 x86/
 bld/
