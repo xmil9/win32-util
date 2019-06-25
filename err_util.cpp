@@ -27,10 +27,13 @@ class LocalFreeGuard
       if (m_ptr)
          LocalFree(m_ptr);
    }
+   // Copy-ctor and copy-assignment should not be available.
    LocalFreeGuard(const LocalFreeGuard&) = delete;
-   LocalFreeGuard(LocalFreeGuard&&) = default;
    LocalFreeGuard& operator=(const LocalFreeGuard&) = delete;
-   LocalFreeGuard& operator=(LocalFreeGuard&&) = default;
+   // Copy-ctor and copy-assignment can be available but for this local implementation
+   // are not necessary.
+   LocalFreeGuard(LocalFreeGuard&&) = delete;
+   LocalFreeGuard& operator=(LocalFreeGuard&&) = delete;
 
  private:
    LPTSTR m_ptr = nullptr;

@@ -105,6 +105,8 @@ TimedCallback::TimedCallback(TimedCallback&& other) noexcept
 
 TimedCallback& TimedCallback::operator=(TimedCallback&& other) noexcept
 {
+   stop();
+
    m_callback = other.m_callback;
    m_id = other.m_id;
    // Make sure dtor of moved-from timer does nothing.

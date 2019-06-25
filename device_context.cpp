@@ -10,6 +10,8 @@ namespace win32
 
 SharedDC& SharedDC::operator=(SharedDC&& other) noexcept
 {
+   release();
+
    DC::operator=(std::move(other));
    m_sourceWnd = other.m_sourceWnd;
    other.m_sourceWnd = NULL;
@@ -45,6 +47,8 @@ void SharedDC::release()
 
 OwnedDC& OwnedDC::operator=(OwnedDC&& other) noexcept
 {
+   release();
+
    DC::operator=(std::move(other));
    return *this;
 }
@@ -78,6 +82,8 @@ PaintDC::PaintDC(HWND paintedWnd)
 
 PaintDC& PaintDC::operator=(PaintDC&& other) noexcept
 {
+   release();
+
    DC::operator=(std::move(other));
    m_paintedWnd = other.m_paintedWnd;
    m_paintInfo = other.m_paintInfo;

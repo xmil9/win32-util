@@ -81,6 +81,7 @@ template <typename H> GdiObj<H>::GdiObj(GdiObj&& other) noexcept
 
 template <typename H> GdiObj<H>& GdiObj<H>::operator=(GdiObj&& other) noexcept
 {
+   release();
    m_h = other.m_h;
    other.m_h = NULL;
    return *this;
@@ -175,6 +176,8 @@ template <typename H> DeselectedObj<H>::DeselectedObj(DeselectedObj&& other) noe
 template <typename H>
 DeselectedObj<H>& DeselectedObj<H>::operator=(DeselectedObj&& other) noexcept
 {
+   restore();
+
    m_hdc = other.m_hdc;
    m_h = other.m_h;
    // Make sure dtor of moved-from object does nothing.

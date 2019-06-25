@@ -82,6 +82,8 @@ RegKey::RegKey(RegKey&& other) noexcept
 
 RegKey& RegKey::operator=(RegKey&& other) noexcept
 {
+   close();
+
    m_key = other.m_key;
    m_created = other.m_created;
    // Make sure dtor of moved-from object does nothing.
