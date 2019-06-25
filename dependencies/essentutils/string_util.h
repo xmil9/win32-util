@@ -60,6 +60,8 @@ SUTILS_API std::string utf8(const std::string& s);
 SUTILS_API std::string utf8(const std::wstring& s);
 SUTILS_API std::wstring utf16(const std::string& s);
 SUTILS_API std::wstring utf16(const std::wstring& s);
+template<typename Str> Str convertTo(const std::string& s);
+template<typename Str> Str convertTo(const std::wstring& s);
 
 
 ///////////////////
@@ -262,6 +264,30 @@ template <typename FP> std::optional<FP> fpFromStr(const std::string& s) noexcep
 template <typename FP> std::optional<FP> fpFromStr(const std::wstring& s) noexcept
 {
    return genstr::fpFromStr<FP, std::wstring>(s);
+}
+
+
+template<typename SrcStr, typename DstStr> DstStr convertString(const SrcStr& s)
+{
+   static_assert(std::is_same_v<SrcStr, std::string> || std::is_same_v<SrcStr, std::wstring>);
+   static_assert(std::is_same_v<DstStr, std::string> || std::is_same_v<DstStr, std::wstring>);
+
+   if constexpr (std::is_same_v<DstStr, std::string>)
+      return utf8(s);
+   else
+      return utf16(s);
+}
+
+
+template<typename Str> Str convertTo(const std::string& s)
+{
+   return convertString<std::string, Str>(s);
+}
+
+
+template<typename Str> Str convertTo(const std::wstring& s)
+{
+   return convertString<std::wstring, Str>(s);
 }
 
 } // namespace sutil

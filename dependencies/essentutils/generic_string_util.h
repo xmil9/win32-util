@@ -23,6 +23,28 @@ namespace sutil
 {
 namespace genstr
 {
+///////////////////
+
+// Interface
+
+template <typename Str> bool startsWith(const Str& s, const Str& start);
+template <typename Str> bool endsWith(const Str& s, const Str& tail);
+template <typename Str> Str trimLeft(const Str& s, typename Str::value_type ch);
+template <typename Str> Str trimRight(const Str& s, typename Str::value_type ch);
+template <typename Str> Str trim(const Str& s, typename Str::value_type ch);
+template <typename Str> std::vector<Str> split(const Str& s, const Str& separator);
+template <typename Iter, typename Str> Str join(Iter it, Iter end, const Str& separator);
+template <typename Int, typename Str> Int intFromStrThrow(const Str& s);
+template <typename Int, typename Str> Int intFromStr(const Str& s, Int defaultValue) noexcept;
+template <typename Int, typename Str> std::optional<Int> intFromStr(const Str& s) noexcept;
+template <typename FP, typename Str> FP fpFromStrThrow(const Str& s);
+template <typename FP, typename Str> FP fpFromStr(const Str& s, FP defaultValue) noexcept;
+template <typename FP, typename Str> std::optional<FP> fpFromStr(const Str& s) noexcept;
+
+
+///////////////////
+
+// Implementation
 
 template <typename Str>
 inline constexpr bool isStdString =
