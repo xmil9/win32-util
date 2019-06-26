@@ -343,6 +343,7 @@
     <ClInclude Include="..\err_util.h" />
     <ClInclude Include="..\gdi_object.h" />
     <ClInclude Include="..\geometry.h" />
+    <ClInclude Include="..\mem_util.h" />
     <ClInclude Include="..\message_util.h" />
     <ClInclude Include="..\registry.h" />
     <ClInclude Include="..\timer.h" />

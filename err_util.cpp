@@ -17,23 +17,23 @@ namespace
 // RAII class for freeing memory allocated by LocalAlloc.
 // Implemented locally to keep the err_util component as free of dependencies as
 // possible.
-class LocalFreeGuard
+class LocalMem
 {
  public:
-   LocalFreeGuard() = delete;
-   LocalFreeGuard(LPTSTR p) : m_ptr{p} {}
-   ~LocalFreeGuard()
+   LocalMem() = delete;
+   LocalMem(LPTSTR p) : m_ptr{p} {}
+   ~LocalMem()
    {
       if (m_ptr)
          LocalFree(m_ptr);
    }
    // Copy-ctor and copy-assignment should not be available.
-   LocalFreeGuard(const LocalFreeGuard&) = delete;
-   LocalFreeGuard& operator=(const LocalFreeGuard&) = delete;
+   LocalMem(const LocalMem&) = delete;
+   LocalMem& operator=(const LocalMem&) = delete;
    // Copy-ctor and copy-assignment can be available but for this local implementation
    // are not necessary.
-   LocalFreeGuard(LocalFreeGuard&&) = delete;
-   LocalFreeGuard& operator=(LocalFreeGuard&&) = delete;
+   LocalMem(LocalMem&&) = delete;
+   LocalMem& operator=(LocalMem&&) = delete;
 
  private:
    LPTSTR m_ptr = nullptr;
@@ -61,7 +61,7 @@ TString winErrorNativeText(DWORD errCode)
    if (charsWritten == 0)
       return _T("<<Failed to get description of Windows error.>>");
    // FormatMessage documentation states to free returned memory with LocalFree.
-   LocalFreeGuard memGuard(buffer);
+   LocalMem guardedMem(buffer);
 
    TString errText = buffer;
 

@@ -3,6 +3,7 @@
 #include "err_util_tests.h"
 #include "gdi_object_tests.h"
 #include "geometry_tests.h"
+#include "mem_util_tests.h"
 #include "message_util_tests.h"
 #include "registry_tests.h"
 #include "timer_tests.h"
@@ -31,6 +32,7 @@ void TestRunnerWindow::onRunTests()
    testErrUtil();
    testGdiObject(runnerWnd);
    testGeometry(runnerWnd);
+   testMemUtil();
    testMessageUtil(runnerWnd);
    testRegistry();
    testTString(runnerWnd);

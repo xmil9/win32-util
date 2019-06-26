@@ -46,6 +46,7 @@
     <ClInclude Include="..\err_util_tests.h" />
     <ClInclude Include="..\gdi_object_tests.h" />
     <ClInclude Include="..\geometry_tests.h" />
+    <ClInclude Include="..\mem_util_tests.h" />
     <ClInclude Include="..\message_util_tests.h" />
     <ClInclude Include="..\registry_tests.h" />
     <ClInclude Include="..\resources\resource.h" />
@@ -69,6 +70,7 @@
     <ClCompile Include="..\err_util_tests.cpp" />
     <ClCompile Include="..\gdi_object_tests.cpp" />
     <ClCompile Include="..\geometry_tests.cpp" />
+    <ClCompile Include="..\mem_util_tests.cpp" />
     <ClCompile Include="..\message_util_tests.cpp" />
     <ClCompile Include="..\registry_tests.cpp" />
     <ClCompile Include="..\test_runner_window.cpp" />

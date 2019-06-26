@@ -21,5 +21,6 @@
     <ClInclude Include="..\win32_windows.h" />
     <ClInclude Include="..\window.h" />
     <ClInclude Include="..\err_util.h" />
+    <ClInclude Include="..\mem_util.h" />
   </ItemGroup>
 </Project>
