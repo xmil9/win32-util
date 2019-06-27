@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Tests for TCHAR-based string utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #include "tstring_tests.h"
 #include "tstring.h"
 #include "test_util.h"

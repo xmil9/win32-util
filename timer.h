@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Timer utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #pragma once
 #ifdef _WIN32
 #include "win32_util_api.h"

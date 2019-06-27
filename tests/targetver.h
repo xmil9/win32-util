@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Windows SDK targeting.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #pragma once
 
 // Including SDKDDKVer.h defines the highest available Windows platform.

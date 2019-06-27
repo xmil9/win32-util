@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Timer utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #ifdef _WIN32
 #include "timer.h"
 #include "tstring.h"

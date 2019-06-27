@@ -1,6 +1,12 @@
+//
+// Win32 utilities library
+// Device context utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #ifdef _WIN32
 #include "device_context.h"
-
 
 
 namespace win32

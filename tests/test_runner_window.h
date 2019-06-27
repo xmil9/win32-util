@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Window that executes all test cases.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #pragma once
 #include "window.h"
 

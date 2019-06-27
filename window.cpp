@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Window utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #ifdef _WIN32
 #include "window.h"
 #include <tchar.h>

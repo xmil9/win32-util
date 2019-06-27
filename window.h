@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Window utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #pragma once
 #ifdef _WIN32
 #include "device_context.h"

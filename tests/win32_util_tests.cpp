@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Program entry point.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #include "message_util.h"
 #include "resources/resource.h"
 #include "test_runner_window.h"

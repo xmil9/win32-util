@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Tests for window utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #include "window_tests.h"
 #include "message_util.h"
 #include "window.h"

@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Tests for GDI object utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #include "gdi_object_tests.h"
 #include "gdi_object.h"
 #include "test_util.h"

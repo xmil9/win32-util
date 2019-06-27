@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// GDI object utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #pragma once
 #ifdef _WIN32
 #include "win32_util_api.h"

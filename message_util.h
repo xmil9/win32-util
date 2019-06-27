@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Messaging utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #pragma once
 #ifdef _WIN32
 #include "tstring.h"

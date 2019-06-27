@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Messaging utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #ifdef _WIN32
 #include "message_util.h"
 #include <cassert>

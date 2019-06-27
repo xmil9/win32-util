@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Utilities for testing.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #pragma once
 #include <string>
 

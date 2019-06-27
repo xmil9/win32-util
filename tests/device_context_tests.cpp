@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Tests for device context utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #include "device_context_tests.h"
 #include "device_context.h"
 #include "message_util.h"

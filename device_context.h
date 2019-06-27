@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Device context utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #pragma once
 #ifdef _WIN32
 #include "gdi_object.h"

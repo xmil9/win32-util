@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Window that executes all test cases.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #include "test_runner_window.h"
 #include "device_context_tests.h"
 #include "err_util_tests.h"

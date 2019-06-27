@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Tests for messaging utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #include "message_util_tests.h"
 #include "message_util.h"
 #include "test_util.h"

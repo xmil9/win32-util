@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Macros for importing/exporting functionality from the library.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #pragma once
 #ifdef _WIN32
 

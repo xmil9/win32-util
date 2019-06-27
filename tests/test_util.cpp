@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Utilities for testing.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #include "test_util.h"
 #include "win32_windows.h"
 #include <string>

@@ -1,3 +1,10 @@
+//
+// Win32 utilities library
+// Tests for geometry utilities.
+//
+// Jun-2019, Michael Lindner
+// MIT license
+//
 #include "geometry_tests.h"
 #include "geometry.h"
 #include "test_util.h"
