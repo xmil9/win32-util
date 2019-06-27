@@ -78,7 +78,8 @@ class WIN32UTIL_API Window
    bool isWindowClassRegistered() const;
    virtual bool registerWindowClass() const;
 
-   static LRESULT windowProc(HWND hwnd, UINT msgId, WPARAM wParam, LPARAM lParam);
+   static LRESULT CALLBACK windowProc(HWND hwnd, UINT msgId, WPARAM wParam,
+                                      LPARAM lParam);
    virtual LRESULT handleMessage(HWND hwnd, UINT msgId, WPARAM wParam, LPARAM lParam);
    virtual CreationResult onNcCreate(HWND hwnd, const CREATESTRUCT* createInfo);
    virtual bool onNcDestroy() { return false; }
