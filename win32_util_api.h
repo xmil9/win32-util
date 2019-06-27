@@ -8,17 +8,19 @@
 #pragma once
 #ifdef _WIN32
 
-// Projects that use the DLL target build of win32util have
+// Projects that use the DLL target build of win32-util have
 // to define the WIN32UTIL_DLL macro to make WIN32UTIL_API
 // resolve to '__declspec(dllimport)'.
-
 #ifdef WIN32UTIL_DLL
 #  ifdef EXPORT_API
 #     define WIN32UTIL_API __declspec(dllexport)
 #  else
 #     define WIN32UTIL_API __declspec(dllimport)
 #  endif
-#else
+#endif
+
+// If not defined yet, define it as empty/nothing.
+#ifndef WIN32UTIL_API
 #  define WIN32UTIL_API
 #endif
 
