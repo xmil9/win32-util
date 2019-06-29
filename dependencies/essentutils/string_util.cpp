@@ -65,6 +65,9 @@ std::string utf8(const std::string& s)
 
 std::string utf8(const std::wstring& s)
 {
+   if (s.empty())
+      return "";
+
    Utf8Locale utf8Locale;
 
    vector<char> buffer(s.size() * 4, 0);
@@ -78,6 +81,9 @@ std::string utf8(const std::wstring& s)
 
 std::wstring utf16(const std::string& s)
 {
+   if (s.empty())
+      return L"";
+
    Utf8Locale utf8Locale;
 
    vector<wchar_t> buffer(s.size() * 4, 0);
