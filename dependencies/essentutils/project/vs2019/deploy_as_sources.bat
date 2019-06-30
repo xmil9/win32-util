@@ -4,6 +4,7 @@
 :: Example: > .\deploy_as_sources.bat C:\libs
 ::
 @echo off
+setlocal
 
 set outDir=%1
 set thisDir=%~dp0
