@@ -26,4 +26,4 @@ robocopy %from% %to% win32_util.vcxproj.filters
 robocopy %from% %to% deploy_as_sources.bat
 
 :: Deploy dependencies by calling deployment scripts of each dependency.
-call %src%\dependencies\essentutils\project\vs2019\deploy_as_sources.bat %dest%\dependencies
+call %src%\dependencies\essentutils\project\vs\deploy_as_sources.bat %dest%\dependencies
