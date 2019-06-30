@@ -18,8 +18,8 @@ robocopy %src% %dest% *.h
 robocopy %src% %dest% *.cpp
 
 :: Deploy project.
-set from=%src%\project\vs2019
-set to=%dest%\project\vs2019
+set from=%src%\project\vs
+set to=%dest%\project\vs
 mkdir %to%
 robocopy %from% %to% essentutils.vcxproj
 robocopy %from% %to% essentutils.vcxproj.filters

@@ -9,7 +9,7 @@ setlocal
 set outDir=%1
 set thisDir=%~dp0
 
-set src=%thisDir%..
+set src=%thisDir%..\..
 set dest=%outDir%\win32_util
 
 :: Deploy code.
@@ -18,8 +18,8 @@ robocopy %src% %dest% *.h
 robocopy %src% %dest% *.cpp
 
 :: Deploy project.
-set from=%src%\project
-set to=%dest%\project
+set from=%src%\project\vs
+set to=%dest%\project\vs
 mkdir %to%
 robocopy %from% %to% win32_util.vcxproj
 robocopy %from% %to% win32_util.vcxproj.filters
