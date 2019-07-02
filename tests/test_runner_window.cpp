@@ -13,6 +13,7 @@
 #include "mem_util_tests.h"
 #include "message_util_tests.h"
 #include "registry_tests.h"
+#include "screen_tests.h"
 #include "timer_tests.h"
 #include "tstring_tests.h"
 #include "window_tests.h"
@@ -42,6 +43,7 @@ void TestRunnerWindow::onRunTests()
    testMemUtil();
    testMessageUtil(runnerWnd);
    testRegistry();
+   testScreen();
    testTString(runnerWnd);
    testTimer(runnerWnd);
    testWindow(runnerWnd);

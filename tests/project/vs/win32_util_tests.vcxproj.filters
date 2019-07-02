@@ -46,6 +46,9 @@
     <ClInclude Include="..\..\targetver.h" />
     <ClInclude Include="..\..\test_runner_window.h" />
     <ClInclude Include="..\..\test_util.h" />
+    <ClInclude Include="..\..\screen_tests.h">
+      <Filter>tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\device_context_tests.cpp">
@@ -81,6 +84,9 @@
     <ClCompile Include="..\..\test_runner_window.cpp" />
     <ClCompile Include="..\..\test_util.cpp" />
     <ClCompile Include="..\..\win32_util_tests.cpp" />
+    <ClCompile Include="..\..\screen_tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\resources\app_large.ico">

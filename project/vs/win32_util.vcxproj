@@ -40,6 +40,7 @@
     <ClCompile Include="..\..\gdi_object.cpp" />
     <ClCompile Include="..\..\message_util.cpp" />
     <ClCompile Include="..\..\registry.cpp" />
+    <ClCompile Include="..\..\screen.cpp" />
     <ClCompile Include="..\..\timer.cpp" />
     <ClCompile Include="..\..\window.cpp" />
   </ItemGroup>
@@ -51,6 +52,7 @@
     <ClInclude Include="..\..\mem_util.h" />
     <ClInclude Include="..\..\message_util.h" />
     <ClInclude Include="..\..\registry.h" />
+    <ClInclude Include="..\..\screen.h" />
     <ClInclude Include="..\..\timer.h" />
     <ClInclude Include="..\..\tstring.h" />
     <ClInclude Include="..\..\win32_util_api.h" />

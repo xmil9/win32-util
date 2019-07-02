@@ -43,6 +43,7 @@
     <ClInclude Include="..\..\message_util_tests.h" />
     <ClInclude Include="..\..\registry_tests.h" />
     <ClInclude Include="..\..\resources\resource.h" />
+    <ClInclude Include="..\..\screen_tests.h" />
     <ClInclude Include="..\..\targetver.h" />
     <ClInclude Include="..\..\test_runner_window.h" />
     <ClInclude Include="..\..\test_util.h" />
@@ -58,6 +59,7 @@
     <ClCompile Include="..\..\mem_util_tests.cpp" />
     <ClCompile Include="..\..\message_util_tests.cpp" />
     <ClCompile Include="..\..\registry_tests.cpp" />
+    <ClCompile Include="..\..\screen_tests.cpp" />
     <ClCompile Include="..\..\test_runner_window.cpp" />
     <ClCompile Include="..\..\test_util.cpp" />
     <ClCompile Include="..\..\timer_tests.cpp" />

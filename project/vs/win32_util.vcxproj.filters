@@ -8,6 +8,7 @@
     <ClCompile Include="..\..\registry.cpp" />
     <ClCompile Include="..\..\timer.cpp" />
     <ClCompile Include="..\..\window.cpp" />
+    <ClCompile Include="..\..\screen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\device_context.h" />
@@ -22,5 +23,6 @@
     <ClInclude Include="..\..\win32_util_api.h" />
     <ClInclude Include="..\..\win32_windows.h" />
     <ClInclude Include="..\..\window.h" />
+    <ClInclude Include="..\..\screen.h" />
   </ItemGroup>
 </Project>
