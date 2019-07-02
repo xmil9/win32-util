@@ -7,6 +7,7 @@
 //
 #include "string_util.h"
 #include <algorithm>
+#include <array>
 #include <clocale>
 #include <cstddef>
 #include <cstdlib>
@@ -102,4 +103,50 @@ std::wstring utf16(const std::wstring& s)
    return s;
 }
 
-} // namespace util
+
+std::string utf8(char ch)
+{
+   // Nothing to do but it's convenient to have the overload available to
+   // reduce checks in calling code.
+   return string{ch};
+}
+
+
+std::string utf8(wchar_t ch)
+{
+   Utf8Locale utf8Locale;
+
+   std::mbstate_t state{};
+   array<char, MB_LEN_MAX + 1> buffer;
+   buffer.fill('\0');
+   const size_t bytesWritten = wcrtomb(buffer.data(), ch, &state);
+   if (bytesWritten == -1)
+      return {};
+
+   return buffer.data();
+}
+
+
+wchar_t utf16(const char* ch, std::size_t len)
+{
+   Utf8Locale utf8Locale;
+
+   std::mbstate_t state{};
+   wchar_t wch;
+   if (mbrtowc(&wch, ch, len, &state) < 0)
+      return L'\0';
+
+   return wch;
+}
+
+
+wchar_t utf16(const wchar_t* ch, std::size_t len)
+{
+   // Nothing to do but it's convenient to have the overload available to
+   // reduce checks in calling code.
+   if (len > 0)
+      return *ch;
+   return L'\0';
+}
+
+} // namespace sutil

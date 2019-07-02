@@ -56,12 +56,19 @@ template <typename FP> FP fpFromStr(const std::wstring& s, FP defaultValue) noex
 template <typename FP> std::optional<FP> fpFromStr(const std::string& s) noexcept;
 template <typename FP> std::optional<FP> fpFromStr(const std::wstring& s) noexcept;
 
+// UTF-8/UTF-16 string conversions.
 SUTILS_API std::string utf8(const std::string& s);
 SUTILS_API std::string utf8(const std::wstring& s);
 SUTILS_API std::wstring utf16(const std::string& s);
 SUTILS_API std::wstring utf16(const std::wstring& s);
 template<typename Str> Str convertTo(const std::string& s);
 template<typename Str> Str convertTo(const std::wstring& s);
+// UTF-8/UTF-16 character conversions. Note that the UTF-8 representation of one UTF-16
+// character can be multiple characters long.
+SUTILS_API std::string utf8(char ch);
+SUTILS_API std::string utf8(wchar_t ch);
+SUTILS_API wchar_t utf16(const char* ch, std::size_t len);
+SUTILS_API wchar_t utf16(const wchar_t* ch, std::size_t len);
 
 
 ///////////////////
