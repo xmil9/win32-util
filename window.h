@@ -90,6 +90,7 @@ class WIN32UTIL_API Window
    virtual bool onPaint() { return false; }
    virtual bool onEraseBkgnd(HDC /*hdc*/) { return false; }
    virtual bool onSize(long width, long height, UINT resizeFlag);
+   virtual bool onCommand(int id, UINT notificationCode, HWND ctrlWnd);
    virtual bool onKeyDown(UINT virtKeyCode, UINT repeatCount, BYTE scanCode,
                           bool isExtendedKey, bool wasPreviouslyDown);
    virtual bool onChar(TCHAR ch, UINT repeatCount, BYTE scanCode, bool isExtendedKey,
@@ -142,6 +143,11 @@ inline bool Window::haveInvalBounds() const
 }
 
 inline bool Window::onSize(long /*width*/, long /*height*/, UINT /*resizeFlag*/)
+{
+   return false;
+}
+
+inline bool Window::onCommand(int /*id*/, UINT /*notificationCode*/, HWND /*ctrlWnd*/) 
 {
    return false;
 }

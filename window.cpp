@@ -413,6 +413,12 @@ LRESULT Window::handleMessage(HWND hwnd, UINT msgId, WPARAM wParam, LPARAM lPara
          return 0;
       break;
    }
+   case WM_COMMAND:
+   {
+      if (onCommand(LOWORD(wParam), HIWORD(wParam), reinterpret_cast<HWND>(lParam)))
+         return 0;
+      break;
+   }
    // If the message loop calls TranslateMessage(), WM_KEYDOWN events for character,
    // backspace, enter, escape, shift+enter, and tab keys are processed by adding
    // WM_CHAR events to the message loop (the original WM_KEYDOWN events will still be
