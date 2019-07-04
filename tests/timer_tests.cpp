@@ -44,7 +44,7 @@ TimerWindow::TimerWindow(bool& closeFlag, std::function<void(Window&)> onExpired
 }
 
 
-bool TimerWindow::onTimer(UINT_PTR /*timerId*/, TIMERPROC /*callback*/)
+bool TimerWindow::onTimer(UINT_PTR timerId, TIMERPROC callback)
 {
    if (m_onExpired)
       m_onExpired(*this);
@@ -62,7 +62,7 @@ bool TimerWindow::onClose()
 
 ///////////////////
 
-void testTimerDefaultCtor(HWND /*testRunnerWnd*/)
+void testTimerDefaultCtor(HWND testRunnerWnd)
 {
    {
       const std::string caseLabel{"Timer default ctor"};
@@ -291,7 +291,7 @@ void testTimedCallbackCtorForCallback()
 {
    {
       const std::string caseLabel{"TimedCallback ctor for callback function"};
-      TimedCallback timedCb{[](DWORD /*sysTime*/) {}};
+      TimedCallback timedCb{[](DWORD sysTime) {}};
       VERIFY(static_cast<bool>(timedCb), caseLabel);
    }
    {
@@ -311,7 +311,7 @@ void testTimedCallbackDtor()
       {
          bool stopMsgLoop = false;
          std::size_t callCount = 0;
-         TimedCallback timedCb{[&callCount, &stopMsgLoop](DWORD /*sysTime*/) {
+         TimedCallback timedCb{[&callCount, &stopMsgLoop](DWORD sysTime) {
             if (++callCount == 10)
                stopMsgLoop = true;
          }};
@@ -331,7 +331,7 @@ void testTimedCallbackMoveCtor()
    {
       const std::string caseLabel{"TimedCallback move ctor"};
 
-      TimedCallback a{[](DWORD /*sysTime*/) {}};
+      TimedCallback a{[](DWORD sysTime) {}};
       TimedCallback b{std::move(a)};
 
       VERIFY(static_cast<bool>(b), caseLabel);
@@ -345,7 +345,7 @@ void testTimedCallbackMoveAssignment()
    {
       const std::string caseLabel{"TimedCallback move assignment"};
 
-      TimedCallback a{[](DWORD /*sysTime*/) {}};
+      TimedCallback a{[](DWORD sysTime) {}};
       TimedCallback b;
 
       b = std::move(a);
@@ -361,7 +361,7 @@ void testTimedCallbackConversionToBool()
    {
       const std::string caseLabel{
          "TimedCallback conversion to bool for initialized instance"};
-      TimedCallback timedCb{[](DWORD /*sysTime*/) {}};
+      TimedCallback timedCb{[](DWORD sysTime) {}};
       VERIFY(timedCb.operator bool(), caseLabel);
    }
    {
@@ -383,7 +383,7 @@ void testTimedCallbackSwap()
    {
       const std::string caseLabel{"TimedCallback swap"};
 
-      TimedCallback a{[](DWORD /*sysTime*/) {}};
+      TimedCallback a{[](DWORD sysTime) {}};
       TimedCallback b;
 
       swap(a, b);
@@ -401,7 +401,7 @@ void testTimedCallbackStart()
 
       bool stopMsgLoop = false;
       std::size_t callCount = 0;
-      TimedCallback timedCb{[&callCount, &stopMsgLoop, &timedCb](DWORD /*sysTime*/) {
+      TimedCallback timedCb{[&callCount, &stopMsgLoop, &timedCb](DWORD sysTime) {
          if (++callCount == 10)
          {
             timedCb.stop();
@@ -418,7 +418,7 @@ void testTimedCallbackStart()
 
       bool stopMsgLoop = false;
       std::size_t callCount = 0;
-      TimedCallback timedCb{[&callCount, &stopMsgLoop, &timedCb](DWORD /*sysTime*/) {
+      TimedCallback timedCb{[&callCount, &stopMsgLoop, &timedCb](DWORD sysTime) {
          if (++callCount % 10 == 0)
          {
             timedCb.stop();
@@ -444,7 +444,7 @@ void testTimedCallbackStop()
 
       bool stopMsgLoop = false;
       std::size_t callCount = 0;
-      TimedCallback timedCb{[&callCount, &stopMsgLoop, &timedCb](DWORD /*sysTime*/) {
+      TimedCallback timedCb{[&callCount, &stopMsgLoop, &timedCb](DWORD sysTime) {
          if (++callCount == 10)
          {
             timedCb.stop();
@@ -468,14 +468,14 @@ void testTimedCallbackId()
    {
       const std::string caseLabel{"TimedCallback::id for started timer"};
 
-      TimedCallback timedCb{[](DWORD /*sysTime*/) {}};
+      TimedCallback timedCb{[](DWORD sysTime) {}};
       timedCb.start(20);
 
       VERIFY(timedCb.id() != 0, caseLabel);
    }
    {
       const std::string caseLabel{"TimedCallback::id for non-started timer"};
-      TimedCallback timedCb{[](DWORD /*sysTime*/) {}};
+      TimedCallback timedCb{[](DWORD sysTime) {}};
       VERIFY(timedCb.id() == 0, caseLabel);
    }
    {
@@ -483,7 +483,7 @@ void testTimedCallbackId()
 
       bool stopMsgLoop = false;
       std::size_t callCount = 0;
-      TimedCallback timedCb{[&callCount, &stopMsgLoop, &timedCb](DWORD /*sysTime*/) {
+      TimedCallback timedCb{[&callCount, &stopMsgLoop, &timedCb](DWORD sysTime) {
          if (++callCount == 10)
          {
             timedCb.stop();

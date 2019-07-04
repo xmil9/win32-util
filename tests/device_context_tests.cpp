@@ -21,7 +21,7 @@ namespace
 
 ///////////////////
 
-void testDCDefaultCtor(HWND /*testRunnerWnd*/)
+void testDCDefaultCtor(HWND testRunnerWnd)
 {
    {
       const std::string caseLabel{"DC default ctor"};
@@ -43,7 +43,7 @@ void testDCCtorForHDC(HWND testRunnerWnd)
 }
 
 
-void testDCDtor(HWND /*testRunnerWnd*/)
+void testDCDtor(HWND testRunnerWnd)
 {
    // Dtor does nothing.
 }
@@ -238,7 +238,7 @@ void testDCSelectObject(HWND testRunnerWnd)
 
 ///////////////////
 
-void testSharedDCDefaultCtor(HWND /*testRunnerWnd*/)
+void testSharedDCDefaultCtor(HWND testRunnerWnd)
 {
    {
       const std::string caseLabel{"SharedDC default ctor"};
@@ -361,7 +361,7 @@ void testSharedDCRelease(HWND testRunnerWnd)
 
 ///////////////////
 
-void testOwnedDCDefaultCtor(HWND /*testRunnerWnd*/)
+void testOwnedDCDefaultCtor(HWND testRunnerWnd)
 {
    {
       const std::string caseLabel{"OwnedDC default ctor"};
@@ -479,7 +479,7 @@ class PaintDCTestWindow : public Window
 
 
 PaintDCTestWindow::PaintDCTestWindow(PaintCallback_t testCallback, bool& closeFlag)
-   : m_testCallback{testCallback}, m_closeFlag{closeFlag}
+: m_testCallback{testCallback}, m_closeFlag{closeFlag}
 {
    assert(m_testCallback);
 }
@@ -516,7 +516,7 @@ void runPaintDCTest(HWND testRunnerWnd, PaintDCTestWindow::PaintCallback_t testC
 
 ///////////////////
 
-void testPaintDCDefaultCtor(HWND /*testRunnerWnd*/)
+void testPaintDCDefaultCtor(HWND testRunnerWnd)
 {
    {
       const std::string caseLabel{"PaintDC default ctor"};
@@ -575,9 +575,9 @@ void testPaintDCMoveAssignment(HWND testRunnerWnd)
       const std::string caseLabel{"PaintDC move assignment"};
       PaintDC a{testWnd};
       PaintDC b;
-      
+
       b = std::move(a);
-      
+
       VERIFY(b.hdc() != NULL, caseLabel);
       VERIFY(b.hwnd() == testWnd, caseLabel);
       VERIFY(b.paintInfo().hdc == b.hdc(), caseLabel);
@@ -615,9 +615,9 @@ void testPaintDCSwap(HWND testRunnerWnd)
       const std::string caseLabel{"PaintDC swap"};
       PaintDC a{testWnd};
       PaintDC b;
-      
+
       swap(a, b);
-      
+
       VERIFY(b.hdc() != NULL, caseLabel);
       VERIFY(b.hwnd() == testWnd, caseLabel);
       VERIFY(b.paintInfo().hdc == b.hdc(), caseLabel);
@@ -636,13 +636,13 @@ void testPaintDCClear(HWND testRunnerWnd)
       PaintDC dc{testWnd};
       // Keep a copy of the paint info for ending the paint operation manually.
       PAINTSTRUCT paintInfoCopy = dc.paintInfo();
-      
+
       dc.clear();
-      
+
       VERIFY(dc.hdc() == NULL, caseLabel);
       VERIFY(dc.hwnd() == NULL, caseLabel);
       VERIFY(dc.paintInfo().hdc == NULL, caseLabel);
-      
+
       ::EndPaint(testWnd, &paintInfoCopy);
    };
    runPaintDCTest(testRunnerWnd, testCase);
@@ -654,9 +654,9 @@ void testPaintDCRelease(HWND testRunnerWnd)
    auto testCase = [](HWND testWnd) {
       const std::string caseLabel{"PaintDC::release"};
       PaintDC dc{testWnd};
-      
+
       dc.release();
-      
+
       VERIFY(dc.hdc() == NULL, caseLabel);
       VERIFY(dc.hwnd() == NULL, caseLabel);
       VERIFY(dc.paintInfo().hdc == NULL, caseLabel);

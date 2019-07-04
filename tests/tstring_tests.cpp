@@ -158,7 +158,7 @@ void testToString()
 } // namespace
 
 
-void testTString(HWND /*testRunnerWnd*/)
+void testTString(HWND testRunnerWnd)
 {
    testStringTraitsForWchar_t();
    testStringTraitsForChar();

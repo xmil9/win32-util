@@ -51,7 +51,7 @@ bool DelayedTestWindow::onClose()
 }
 
 
-bool DelayedTestWindow::onTimer(UINT_PTR timerId, TIMERPROC /*callback*/)
+bool DelayedTestWindow::onTimer(UINT_PTR timerId, TIMERPROC callback)
 {
    m_callback(timerId, *this);
    return true;
@@ -115,7 +115,7 @@ bool MessageTestWindow::onClose()
 
 ///////////////////
 
-void testWindowDefaultCtor(HWND /*testRunnerWnd*/)
+void testWindowDefaultCtor(HWND testRunnerWnd)
 {
    {
       const std::string caseLabel{"Window default ctor"};
@@ -135,7 +135,7 @@ void testWindowCtorForHwnd(HWND testRunnerWnd)
 }
 
 
-void testWindowDtor(HWND /*testRunnerWnd*/)
+void testWindowDtor(HWND testRunnerWnd)
 {
    // Dtor does nothing.
 }

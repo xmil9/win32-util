@@ -115,7 +115,7 @@ void ModalTestWindow::onMsg(UINT msgId)
 
 ///////////////////
 
-void testMainMessageLoop(HWND /*testRunnerWnd*/)
+void testMainMessageLoop(HWND testRunnerWnd)
 {
    // Cannot test here but it is used as the main message loop of this
    // test app.
@@ -163,7 +163,7 @@ void testModalMessageLoop(HWND testRunnerWnd)
 
       bool stopMsgLoopFlag = false;
       std::size_t callCount = 0;
-      TimedCallback timedCb{[&callCount, &stopMsgLoopFlag](DWORD /*sysTime*/) { 
+      TimedCallback timedCb{[&callCount, &stopMsgLoopFlag](DWORD sysTime) {
          if (++callCount == 10)
             stopMsgLoopFlag = true;
       }};

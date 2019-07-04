@@ -645,7 +645,7 @@ void testRectUnite()
 } // namespace
 
 
-void testGeometry(HWND /*testRunnerWnd*/)
+void testGeometry(HWND testRunnerWnd)
 {
    testPointDefaultCtor();
    testPointCtorForCoordinates();

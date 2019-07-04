@@ -728,7 +728,7 @@ void testRegKeyReadBinary()
 
       vector<BYTE> outBuffer;
       outBuffer.resize(val.size());
-      auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE * {
+      auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* {
          if (numBytes <= outBuffer.size())
             return outBuffer.data();
          return nullptr;
@@ -747,7 +747,7 @@ void testRegKeyReadBinary()
       createKey(HKEY_CURRENT_USER, keyPath);
 
       vector<BYTE> outBuffer;
-      auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE * {
+      auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* {
          if (numBytes <= outBuffer.size())
             return outBuffer.data();
          return nullptr;
@@ -773,9 +773,7 @@ void testRegKeyReadBinary()
       }
 
       vector<BYTE> outBuffer;
-      auto getOutBuffer = [&outBuffer](size_t /*numBytes*/) -> BYTE * {
-         return nullptr;
-      };
+      auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* { return nullptr; };
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       const size_t bytesRead = rk.readBinary(entryName, getOutBuffer);
@@ -796,7 +794,7 @@ void testRegKeyReadBinary()
       }
 
       vector<BYTE> outBuffer{0, 0, 0};
-      auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE * {
+      auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* {
          if (numBytes <= outBuffer.size())
             return outBuffer.data();
          return nullptr;
@@ -820,7 +818,7 @@ void testRegKeyReadBinary()
       }
 
       vector<BYTE> outBuffer;
-      auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE * {
+      auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* {
          if (numBytes <= outBuffer.size())
             return outBuffer.data();
          return nullptr;
@@ -938,7 +936,7 @@ void testRegKeyWriteBinary()
 
       vector<BYTE> outBuffer;
       outBuffer.resize(val.size());
-      auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE * {
+      auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* {
          if (numBytes <= outBuffer.size())
             return outBuffer.data();
          return nullptr;
@@ -1074,7 +1072,7 @@ void testRegKeySubkeyNames()
       const string caseLabel{"RegKey::subkeyNames for single subkey"};
       const wstring keyPath = TestsKeyPath + L"\\RegKeySubkeyNames";
       createKey(HKEY_CURRENT_USER, keyPath);
-   
+
       const vector<wstring> subkeys{L"sub1"};
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
@@ -1084,26 +1082,26 @@ void testRegKeySubkeyNames()
             subkey.create(setup, keyName);
          }
       }
-   
+
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       const vector<wstring> res = rk.subkeyNames();
       VERIFY(res == subkeys, caseLabel);
-   
+
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
       const string caseLabel{"RegKey::subkeyNames for no subkeys"};
       const wstring keyPath = TestsKeyPath + L"\\RegKeySubkeyNames";
       createKey(HKEY_CURRENT_USER, keyPath);
-   
+
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
       }
-   
+
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       const vector<wstring> res = rk.subkeyNames();
       VERIFY(res.empty(), caseLabel);
-   
+
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
 }
