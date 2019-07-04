@@ -36,11 +36,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\color.h" />
+    <ClInclude Include="..\..\filesys.h" />
     <ClInclude Include="..\..\generic_string_util.h" />
     <ClInclude Include="..\..\string_util.h" />
     <ClInclude Include="..\..\sutils_api.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\filesys_win32.cpp" />
     <ClCompile Include="..\..\string_util.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

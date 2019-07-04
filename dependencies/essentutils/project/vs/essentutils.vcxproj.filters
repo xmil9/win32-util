@@ -5,8 +5,10 @@
     <ClInclude Include="..\..\generic_string_util.h" />
     <ClInclude Include="..\..\string_util.h" />
     <ClInclude Include="..\..\sutils_api.h" />
+    <ClInclude Include="..\..\filesys.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\string_util.cpp" />
+    <ClCompile Include="..\..\filesys_win32.cpp" />
   </ItemGroup>
 </Project>
