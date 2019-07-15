@@ -18,7 +18,6 @@ using namespace win32;
 
 namespace
 {
-
 ///////////////////
 
 constexpr UINT WM_MSG_1 = WM_USER + 1;

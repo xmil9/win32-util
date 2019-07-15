@@ -17,7 +17,6 @@ using namespace win32;
 
 namespace
 {
-
 ///////////////////
 
 // Window that calls a given function when receiving a WM_TIMER event.

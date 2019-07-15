@@ -18,7 +18,6 @@ using namespace win32;
 
 namespace
 {
-
 ///////////////////
 
 void testDCDefaultCtor(HWND testRunnerWnd)

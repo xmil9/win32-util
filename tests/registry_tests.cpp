@@ -9,7 +9,6 @@
 #include "registry.h"
 #include "test_util.h"
 
-using namespace std;
 using namespace win32;
 
 
@@ -17,7 +16,7 @@ namespace
 {
 ///////////////////
 
-const wstring TestsKeyPath = L"Software\\Projects\\win32_util\\tests";
+const std::wstring TestsKeyPath = L"Software\\Projects\\win32_util\\tests";
 
 
 bool createKey(HKEY parent, const std::wstring& keyPath)
@@ -43,7 +42,7 @@ bool deleteKey(HKEY parent, const std::wstring& keyPath)
 void testRegKeyDefaultCtor()
 {
    {
-      const string caseLabel{"RegKey default ctor"};
+      const std::string caseLabel{"RegKey default ctor"};
       RegKey rk;
       VERIFY(!rk, caseLabel);
       VERIFY(rk.hkey() == NULL, caseLabel);
@@ -54,9 +53,9 @@ void testRegKeyDefaultCtor()
 void testRegKeyCtorWithKeyInfo()
 {
    {
-      const string caseLabel{"RegKey ctor with key info for existing key"};
+      const std::string caseLabel{"RegKey ctor with key info for existing key"};
 
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyCtorWithKeyInfo";
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyCtorWithKeyInfo";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
@@ -67,9 +66,9 @@ void testRegKeyCtorWithKeyInfo()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey ctor with key info for not existing key"};
+      const std::string caseLabel{"RegKey ctor with key info for not existing key"};
 
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyCtorWithKeyInfo";
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyCtorWithKeyInfo";
       // Make sure key does not exists.
       deleteKey(HKEY_CURRENT_USER, keyPath);
 
@@ -92,8 +91,8 @@ void testRegKeyDtor()
 void testRegKeyMoveCtor()
 {
    {
-      const string caseLabel{"RegKey move ctor"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyMoveCtor";
+      const std::string caseLabel{"RegKey move ctor"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyMoveCtor";
 
       RegKey a{HKEY_CURRENT_USER, keyPath};
       HKEY hkey = a.hkey();
@@ -109,8 +108,8 @@ void testRegKeyMoveCtor()
 void testRegKeyMoveAssignment()
 {
    {
-      const string caseLabel{"RegKey move assignment"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyMoveAssignment";
+      const std::string caseLabel{"RegKey move assignment"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyMoveAssignment";
 
       RegKey a{HKEY_CURRENT_USER, keyPath};
       HKEY hkey = a.hkey();
@@ -127,8 +126,8 @@ void testRegKeyMoveAssignment()
 void testRegKeyOperatorBool()
 {
    {
-      const string caseLabel{"RegKey operator bool for opened key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyOperatorBool";
+      const std::string caseLabel{"RegKey operator bool for opened key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyOperatorBool";
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       VERIFY(rk.operator bool(), caseLabel);
@@ -136,8 +135,8 @@ void testRegKeyOperatorBool()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey operator bool for empty key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyOperatorBool";
+      const std::string caseLabel{"RegKey operator bool for empty key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyOperatorBool";
 
       RegKey rk;
       VERIFY(!rk.operator bool(), caseLabel);
@@ -150,8 +149,8 @@ void testRegKeyOperatorBool()
 void testRegKeyOperatorHKEY()
 {
    {
-      const string caseLabel{"RegKey operator HKEY for opened key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyOperatorHKEY";
+      const std::string caseLabel{"RegKey operator HKEY for opened key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyOperatorHKEY";
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       VERIFY(rk.operator HKEY() == rk.hkey(), caseLabel);
@@ -159,8 +158,8 @@ void testRegKeyOperatorHKEY()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey operator HKEY for empty key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyOperatorHKEY";
+      const std::string caseLabel{"RegKey operator HKEY for empty key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyOperatorHKEY";
 
       RegKey rk;
       VERIFY(rk.operator HKEY() == NULL, caseLabel);
@@ -173,8 +172,8 @@ void testRegKeyOperatorHKEY()
 void testRegKeyHkey()
 {
    {
-      const string caseLabel{"RegKey::hkey for opened key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyHkey";
+      const std::string caseLabel{"RegKey::hkey for opened key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyHkey";
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       VERIFY(rk.hkey() != NULL, caseLabel);
@@ -182,8 +181,8 @@ void testRegKeyHkey()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::hkey for empty key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyHkey";
+      const std::string caseLabel{"RegKey::hkey for empty key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyHkey";
 
       RegKey rk;
       VERIFY(rk.hkey() == NULL, caseLabel);
@@ -196,13 +195,13 @@ void testRegKeyHkey()
 void testRegKeySwap()
 {
    {
-      const string caseLabel{"RegKey swap"};
+      const std::string caseLabel{"RegKey swap"};
 
-      const wstring keyPathA = TestsKeyPath + L"\\RegKeySwapA";
+      const std::wstring keyPathA = TestsKeyPath + L"\\RegKeySwapA";
       RegKey a{HKEY_CURRENT_USER, keyPathA};
       HKEY hkeyA = a.hkey();
 
-      const wstring keyPathB = TestsKeyPath + L"\\RegKeySwapB";
+      const std::wstring keyPathB = TestsKeyPath + L"\\RegKeySwapB";
       RegKey b{HKEY_CURRENT_USER, keyPathB};
       HKEY hkeyB = b.hkey();
 
@@ -219,8 +218,8 @@ void testRegKeySwap()
 void testRegKeyCreate()
 {
    {
-      const string caseLabel{"RegKey::create for not existing key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyCreate";
+      const std::string caseLabel{"RegKey::create for not existing key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyCreate";
       deleteKey(HKEY_CURRENT_USER, keyPath);
 
       RegKey rk;
@@ -232,8 +231,8 @@ void testRegKeyCreate()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::create for existing key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyCreate";
+      const std::string caseLabel{"RegKey::create for existing key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyCreate";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       RegKey rk;
@@ -250,8 +249,8 @@ void testRegKeyCreate()
 void testRegKeyOpen()
 {
    {
-      const string caseLabel{"RegKey::open for existing key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyOpen";
+      const std::string caseLabel{"RegKey::open for existing key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyOpen";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       RegKey rk;
@@ -263,8 +262,8 @@ void testRegKeyOpen()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::open for not existing key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyOpen";
+      const std::string caseLabel{"RegKey::open for not existing key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyOpen";
       deleteKey(HKEY_CURRENT_USER, keyPath);
 
       RegKey rk;
@@ -280,8 +279,8 @@ void testRegKeyOpen()
 void testRegKeyClose()
 {
    {
-      const string caseLabel{"RegKey::close for open key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyClose";
+      const std::string caseLabel{"RegKey::close for open key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyClose";
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       rk.close();
@@ -290,7 +289,7 @@ void testRegKeyClose()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::close for empty key"};
+      const std::string caseLabel{"RegKey::close for empty key"};
       RegKey rk;
       rk.close();
       VERIFY(rk.hkey() == NULL, caseLabel);
@@ -301,8 +300,8 @@ void testRegKeyClose()
 void testRegKeyClear()
 {
    {
-      const string caseLabel{"RegKey::clear for open key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyClear";
+      const std::string caseLabel{"RegKey::clear for open key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyClear";
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       HKEY hkey = rk.hkey();
@@ -318,8 +317,8 @@ void testRegKeyClear()
 void testRegKeyWasCreated()
 {
    {
-      const string caseLabel{"RegKey::wasCreated for created key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyWasCreated";
+      const std::string caseLabel{"RegKey::wasCreated for created key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyWasCreated";
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       VERIFY(rk.wasCreated(), caseLabel);
@@ -327,8 +326,8 @@ void testRegKeyWasCreated()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::wasCreated for opened key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyWasCreated";
+      const std::string caseLabel{"RegKey::wasCreated for opened key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyWasCreated";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
@@ -341,8 +340,8 @@ void testRegKeyWasCreated()
 void testRegKeyWasOpened()
 {
    {
-      const string caseLabel{"RegKey::wasOpened for created key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyWasOpened";
+      const std::string caseLabel{"RegKey::wasOpened for created key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyWasOpened";
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       VERIFY(!rk.wasOpened(), caseLabel);
@@ -350,8 +349,8 @@ void testRegKeyWasOpened()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::wasOpened for opened key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyWasOpened";
+      const std::string caseLabel{"RegKey::wasOpened for opened key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyWasOpened";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
@@ -365,8 +364,8 @@ void testRegKeyWasOpened()
 void testRegKeyKeyExists()
 {
    {
-      const string caseLabel{"RegKey::keyExists for existing key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyKeyExists";
+      const std::string caseLabel{"RegKey::keyExists for existing key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyKeyExists";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       VERIFY(RegKey::keyExists(HKEY_CURRENT_USER, keyPath), caseLabel);
@@ -374,8 +373,8 @@ void testRegKeyKeyExists()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::keyExists for not existing key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyKeyExists";
+      const std::string caseLabel{"RegKey::keyExists for not existing key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyKeyExists";
       deleteKey(HKEY_CURRENT_USER, keyPath);
 
       VERIFY(!RegKey::keyExists(HKEY_CURRENT_USER, keyPath), caseLabel);
@@ -386,8 +385,8 @@ void testRegKeyKeyExists()
 void testRegKeyRemoveKey()
 {
    {
-      const string caseLabel{"RegKey::removeKey for existing key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyRemoveKey";
+      const std::string caseLabel{"RegKey::removeKey for existing key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyRemoveKey";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       const bool res = RegKey::removeKey(HKEY_CURRENT_USER, keyPath);
@@ -397,8 +396,8 @@ void testRegKeyRemoveKey()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::removeKey for not existing key"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyRemoveKey";
+      const std::string caseLabel{"RegKey::removeKey for not existing key"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyRemoveKey";
       deleteKey(HKEY_CURRENT_USER, keyPath);
 
       const bool res = RegKey::removeKey(HKEY_CURRENT_USER, keyPath);
@@ -406,13 +405,13 @@ void testRegKeyRemoveKey()
       VERIFY(!RegKey::keyExists(HKEY_CURRENT_USER, keyPath), caseLabel);
    }
    {
-      const string caseLabel{"RegKey::removeKey for key with subkeys"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyRemoveKey";
+      const std::string caseLabel{"RegKey::removeKey for key with subkeys"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyRemoveKey";
 
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
-         const vector<wstring> subkeys{L"sub1", L"sub2", L"sub3"};
-         for (const wstring& keyName : subkeys)
+         const std::vector<std::wstring> subkeys{L"sub1", L"sub2", L"sub3"};
+         for (const std::wstring& keyName : subkeys)
          {
             RegKey subkey;
             subkey.create(setup, keyName);
@@ -431,11 +430,11 @@ void testRegKeyRemoveKey()
 void testRegKeyReadInt32()
 {
    {
-      const string caseLabel{"RegKey::readInt32 for existing value"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt32";
+      const std::string caseLabel{"RegKey::readInt32 for existing value"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt32";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Int32";
+      const std::wstring entryName = L"Int32";
       const int32_t val = 42;
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
@@ -443,54 +442,54 @@ void testRegKeyReadInt32()
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<int32_t> res = rk.readInt32(entryName);
+      const std::optional<int32_t> res = rk.readInt32(entryName);
       VERIFY(res.has_value(), caseLabel);
       VERIFY(res.value() == val, caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readInt32 for not existing value"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt32";
+      const std::string caseLabel{"RegKey::readInt32 for not existing value"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt32";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Int32";
+      const std::wstring entryName = L"Int32";
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<int32_t> res = rk.readInt32(entryName);
+      const std::optional<int32_t> res = rk.readInt32(entryName);
       VERIFY(!res.has_value(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readInt32 for value of other type"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt32";
+      const std::string caseLabel{"RegKey::readInt32 for value of other type"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt32";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Int32";
+      const std::wstring entryName = L"Int32";
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeString(entryName, "wrong type");
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<int32_t> res = rk.readInt32(entryName);
+      const std::optional<int32_t> res = rk.readInt32(entryName);
       VERIFY(!res.has_value(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readInt32 for value of other integer type"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt32";
+      const std::string caseLabel{"RegKey::readInt32 for value of other integer type"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt32";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Int32";
+      const std::wstring entryName = L"Int32";
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeInt64(entryName, 1);
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<int32_t> res = rk.readInt32(entryName);
+      const std::optional<int32_t> res = rk.readInt32(entryName);
       VERIFY(!res.has_value(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
@@ -501,11 +500,11 @@ void testRegKeyReadInt32()
 void testRegKeyReadInt64()
 {
    {
-      const string caseLabel{"RegKey::readInt64 for existing value"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt64";
+      const std::string caseLabel{"RegKey::readInt64 for existing value"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt64";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Int64";
+      const std::wstring entryName = L"Int64";
       const int64_t val = 42;
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
@@ -513,54 +512,54 @@ void testRegKeyReadInt64()
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<int64_t> res = rk.readInt64(entryName);
+      const std::optional<int64_t> res = rk.readInt64(entryName);
       VERIFY(res.has_value(), caseLabel);
       VERIFY(res.value() == val, caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readInt64 for not existing value"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt64";
+      const std::string caseLabel{"RegKey::readInt64 for not existing value"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt64";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Int64";
+      const std::wstring entryName = L"Int64";
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<int64_t> res = rk.readInt64(entryName);
+      const std::optional<int64_t> res = rk.readInt64(entryName);
       VERIFY(!res.has_value(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readInt64 for value of other type"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt64";
+      const std::string caseLabel{"RegKey::readInt64 for value of other type"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt64";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Int64";
+      const std::wstring entryName = L"Int64";
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeString(entryName, "wrong type");
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<int64_t> res = rk.readInt64(entryName);
+      const std::optional<int64_t> res = rk.readInt64(entryName);
       VERIFY(!res.has_value(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readInt64 for value of other integer type"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt64";
+      const std::string caseLabel{"RegKey::readInt64 for value of other integer type"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadInt64";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Int64";
+      const std::wstring entryName = L"Int64";
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeInt32(entryName, 1);
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<int64_t> res = rk.readInt64(entryName);
+      const std::optional<int64_t> res = rk.readInt64(entryName);
       VERIFY(!res.has_value(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
@@ -571,68 +570,68 @@ void testRegKeyReadInt64()
 void testRegKeyReadString()
 {
    {
-      const string caseLabel{"RegKey::readString for existing value"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
+      const std::string caseLabel{"RegKey::readString for existing value"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"String";
-      const string val = "test";
+      const std::wstring entryName = L"String";
+      const std::string val = "test";
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeString(entryName, val);
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<string> res = rk.readString(entryName);
+      const std::optional<std::string> res = rk.readString(entryName);
       VERIFY(res.has_value(), caseLabel);
       VERIFY(res.value() == val, caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readString for not existing value"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
+      const std::string caseLabel{"RegKey::readString for not existing value"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"String";
+      const std::wstring entryName = L"String";
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<string> res = rk.readString(entryName);
+      const std::optional<std::string> res = rk.readString(entryName);
       VERIFY(!res.has_value(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readString for empty string"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
+      const std::string caseLabel{"RegKey::readString for empty string"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"String";
-      const string val = "";
+      const std::wstring entryName = L"String";
+      const std::string val = "";
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeString(entryName, val);
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<string> res = rk.readString(entryName);
+      const std::optional<std::string> res = rk.readString(entryName);
       VERIFY(res.has_value(), caseLabel);
       VERIFY(res.value() == val, caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readString for value of other type"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
+      const std::string caseLabel{"RegKey::readString for value of other type"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadString";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"String";
+      const std::wstring entryName = L"String";
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeInt32(entryName, 1);
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<string> res = rk.readString(entryName);
+      const std::optional<std::string> res = rk.readString(entryName);
       VERIFY(!res.has_value(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
@@ -643,68 +642,68 @@ void testRegKeyReadString()
 void testRegKeyReadWString()
 {
    {
-      const string caseLabel{"RegKey::readWString for existing value"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadWString";
+      const std::string caseLabel{"RegKey::readWString for existing value"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadWString";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"String";
-      const wstring val = L"test";
+      const std::wstring entryName = L"String";
+      const std::wstring val = L"test";
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeWString(entryName, val);
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<wstring> res = rk.readWString(entryName);
+      const std::optional<std::wstring> res = rk.readWString(entryName);
       VERIFY(res.has_value(), caseLabel);
       VERIFY(res.value() == val, caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readWString for not existing value"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadWString";
+      const std::string caseLabel{"RegKey::readWString for not existing value"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadWString";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"String";
+      const std::wstring entryName = L"String";
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<wstring> res = rk.readWString(entryName);
+      const std::optional<std::wstring> res = rk.readWString(entryName);
       VERIFY(!res.has_value(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readWString for empty string"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadWString";
+      const std::string caseLabel{"RegKey::readWString for empty string"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadWString";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"String";
-      const wstring val = L"";
+      const std::wstring entryName = L"String";
+      const std::wstring val = L"";
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeWString(entryName, val);
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<wstring> res = rk.readWString(entryName);
+      const std::optional<std::wstring> res = rk.readWString(entryName);
       VERIFY(res.has_value(), caseLabel);
       VERIFY(res.value() == val, caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readWString for value of other type"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadWString";
+      const std::string caseLabel{"RegKey::readWString for value of other type"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadWString";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"String";
+      const std::wstring entryName = L"String";
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeInt32(entryName, 1);
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const optional<wstring> res = rk.readWString(entryName);
+      const std::optional<std::wstring> res = rk.readWString(entryName);
       VERIFY(!res.has_value(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
@@ -715,18 +714,18 @@ void testRegKeyReadWString()
 void testRegKeyReadBinary()
 {
    {
-      const string caseLabel{"RegKey::readBinary for existing value"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadBinary";
+      const std::string caseLabel{"RegKey::readBinary for existing value"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadBinary";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Bin";
-      const vector<BYTE> val{1, 2, 3, 4, 5, 6};
+      const std::wstring entryName = L"Bin";
+      const std::vector<BYTE> val{1, 2, 3, 4, 5, 6};
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeBinary(entryName, val.data(), val.size());
       }
 
-      vector<BYTE> outBuffer;
+      std::vector<BYTE> outBuffer;
       outBuffer.resize(val.size());
       auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* {
          if (numBytes <= outBuffer.size())
@@ -742,18 +741,18 @@ void testRegKeyReadBinary()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readBinary for not existing value"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadBinary";
+      const std::string caseLabel{"RegKey::readBinary for not existing value"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadBinary";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      vector<BYTE> outBuffer;
+      std::vector<BYTE> outBuffer;
       auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* {
          if (numBytes <= outBuffer.size())
             return outBuffer.data();
          return nullptr;
       };
 
-      const wstring entryName = L"String";
+      const std::wstring entryName = L"String";
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       const size_t bytesRead = rk.readBinary(entryName, getOutBuffer);
       VERIFY(bytesRead == 0, caseLabel);
@@ -761,18 +760,18 @@ void testRegKeyReadBinary()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readBinary for failing to provide buffer"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadBinary";
+      const std::string caseLabel{"RegKey::readBinary for failing to provide buffer"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadBinary";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Bin";
-      const vector<BYTE> val{1, 2, 3, 4, 5, 6};
+      const std::wstring entryName = L"Bin";
+      const std::vector<BYTE> val{1, 2, 3, 4, 5, 6};
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeBinary(entryName, val.data(), val.size());
       }
 
-      vector<BYTE> outBuffer;
+      std::vector<BYTE> outBuffer;
       auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* { return nullptr; };
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
@@ -782,18 +781,18 @@ void testRegKeyReadBinary()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readBinary for empty buffer"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadBinary";
+      const std::string caseLabel{"RegKey::readBinary for empty buffer"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadBinary";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Bin";
-      const vector<BYTE> val;
+      const std::wstring entryName = L"Bin";
+      const std::vector<BYTE> val;
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeBinary(entryName, val.data(), val.size());
       }
 
-      vector<BYTE> outBuffer{0, 0, 0};
+      std::vector<BYTE> outBuffer{0, 0, 0};
       auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* {
          if (numBytes <= outBuffer.size())
             return outBuffer.data();
@@ -807,17 +806,17 @@ void testRegKeyReadBinary()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::readBinary for value of other type"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyReadBinary";
+      const std::string caseLabel{"RegKey::readBinary for value of other type"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyReadBinary";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Bin";
+      const std::wstring entryName = L"Bin";
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
          setup.writeInt32(entryName, 1);
       }
 
-      vector<BYTE> outBuffer;
+      std::vector<BYTE> outBuffer;
       auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* {
          if (numBytes <= outBuffer.size())
             return outBuffer.data();
@@ -836,17 +835,17 @@ void testRegKeyReadBinary()
 void testRegKeyWriteInt32()
 {
    {
-      const string caseLabel{"RegKey::writeInt32"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyWriteInt32";
+      const std::string caseLabel{"RegKey::writeInt32"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyWriteInt32";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Int32";
+      const std::wstring entryName = L"Int32";
       const int32_t val = 42;
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       rk.writeInt32(entryName, val);
 
-      const optional<int32_t> res = rk.readInt32(entryName);
+      const std::optional<int32_t> res = rk.readInt32(entryName);
       VERIFY(res.has_value(), caseLabel);
       VERIFY(res.value() == val, caseLabel);
 
@@ -858,17 +857,17 @@ void testRegKeyWriteInt32()
 void testRegKeyWriteInt64()
 {
    {
-      const string caseLabel{"RegKey::writeInt64"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyWriteInt64";
+      const std::string caseLabel{"RegKey::writeInt64"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyWriteInt64";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Int64";
+      const std::wstring entryName = L"Int64";
       const int64_t val = 42;
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       rk.writeInt64(entryName, val);
 
-      const optional<int64_t> res = rk.readInt64(entryName);
+      const std::optional<int64_t> res = rk.readInt64(entryName);
       VERIFY(res.has_value(), caseLabel);
       VERIFY(res.value() == val, caseLabel);
 
@@ -880,17 +879,17 @@ void testRegKeyWriteInt64()
 void testRegKeyWriteString()
 {
    {
-      const string caseLabel{"RegKey::writeString"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyWriteString";
+      const std::string caseLabel{"RegKey::writeString"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyWriteString";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"String";
-      const string val = "test";
+      const std::wstring entryName = L"String";
+      const std::string val = "test";
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       rk.writeString(entryName, val);
 
-      const optional<string> res = rk.readString(entryName);
+      const std::optional<std::string> res = rk.readString(entryName);
       VERIFY(res.has_value(), caseLabel);
       VERIFY(res.value() == val, caseLabel);
 
@@ -902,17 +901,17 @@ void testRegKeyWriteString()
 void testRegKeyWriteWString()
 {
    {
-      const string caseLabel{"RegKey::writeWString"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyWriteWString";
+      const std::string caseLabel{"RegKey::writeWString"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyWriteWString";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"WString";
-      const wstring val = L"test";
+      const std::wstring entryName = L"WString";
+      const std::wstring val = L"test";
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       rk.writeWString(entryName, val);
 
-      const optional<wstring> res = rk.readWString(entryName);
+      const std::optional<std::wstring> res = rk.readWString(entryName);
       VERIFY(res.has_value(), caseLabel);
       VERIFY(res.value() == val, caseLabel);
 
@@ -924,17 +923,17 @@ void testRegKeyWriteWString()
 void testRegKeyWriteBinary()
 {
    {
-      const string caseLabel{"RegKey::writeBinary"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyWriteBinary";
+      const std::string caseLabel{"RegKey::writeBinary"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyWriteBinary";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Bin";
-      const vector<BYTE> val{1, 2, 3, 4};
+      const std::wstring entryName = L"Bin";
+      const std::vector<BYTE> val{1, 2, 3, 4};
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
       rk.writeBinary(entryName, val.data(), val.size());
 
-      vector<BYTE> outBuffer;
+      std::vector<BYTE> outBuffer;
       outBuffer.resize(val.size());
       auto getOutBuffer = [&outBuffer](size_t numBytes) -> BYTE* {
          if (numBytes <= outBuffer.size())
@@ -954,11 +953,11 @@ void testRegKeyWriteBinary()
 void testRegKeyRemoveEntry()
 {
    {
-      const string caseLabel{"RegKey::removeEntry for exiting entry"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyRemoveEntry";
+      const std::string caseLabel{"RegKey::removeEntry for exiting entry"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyRemoveEntry";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const wstring entryName = L"Test";
+      const std::wstring entryName = L"Test";
       const int32_t val = 42;
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
@@ -969,14 +968,14 @@ void testRegKeyRemoveEntry()
       const bool isRemoved = rk.removeEntry(entryName);
       VERIFY(isRemoved, caseLabel);
 
-      const optional<int32_t> res = rk.readInt32(entryName);
+      const std::optional<int32_t> res = rk.readInt32(entryName);
       VERIFY(!res.has_value(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::removeEntry for not exiting entry"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyRemoveEntry";
+      const std::string caseLabel{"RegKey::removeEntry for not exiting entry"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyRemoveEntry";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
@@ -991,14 +990,14 @@ void testRegKeyRemoveEntry()
 void testRegKeyCountSubkeys()
 {
    {
-      const string caseLabel{"RegKey::countSubkeys for multiple subkeys"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountSubkeys";
+      const std::string caseLabel{"RegKey::countSubkeys for multiple subkeys"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyCountSubkeys";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const vector<wstring> subkeys{L"sub1", L"sub2", L"sub3"};
+      const std::vector<std::wstring> subkeys{L"sub1", L"sub2", L"sub3"};
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
-         for (const wstring& keyName : subkeys)
+         for (const std::wstring& keyName : subkeys)
          {
             RegKey subkey;
             subkey.create(setup, keyName);
@@ -1012,8 +1011,8 @@ void testRegKeyCountSubkeys()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::countSubkeys for single subkey"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountSubkeys";
+      const std::string caseLabel{"RegKey::countSubkeys for single subkey"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyCountSubkeys";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       {
@@ -1028,8 +1027,8 @@ void testRegKeyCountSubkeys()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::countSubkeys for no subkeys"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountSubkeys";
+      const std::string caseLabel{"RegKey::countSubkeys for no subkeys"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyCountSubkeys";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       {
@@ -1048,14 +1047,14 @@ void testRegKeyCountSubkeys()
 void testRegKeySubkeyNames()
 {
    {
-      const string caseLabel{"RegKey::subkeyNames for multiple subkeys"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeySubkeyNames";
+      const std::string caseLabel{"RegKey::subkeyNames for multiple subkeys"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeySubkeyNames";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const vector<wstring> subkeys{L"sub1", L"sub2", L"sub3"};
+      const std::vector<std::wstring> subkeys{L"sub1", L"sub2", L"sub3"};
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
-         for (const wstring& keyName : subkeys)
+         for (const std::wstring& keyName : subkeys)
          {
             RegKey subkey;
             subkey.create(setup, keyName);
@@ -1063,20 +1062,20 @@ void testRegKeySubkeyNames()
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const vector<wstring> res = rk.subkeyNames();
+      const std::vector<std::wstring> res = rk.subkeyNames();
       VERIFY(res == subkeys, caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::subkeyNames for single subkey"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeySubkeyNames";
+      const std::string caseLabel{"RegKey::subkeyNames for single subkey"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeySubkeyNames";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const vector<wstring> subkeys{L"sub1"};
+      const std::vector<std::wstring> subkeys{L"sub1"};
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
-         for (const wstring& keyName : subkeys)
+         for (const std::wstring& keyName : subkeys)
          {
             RegKey subkey;
             subkey.create(setup, keyName);
@@ -1084,14 +1083,14 @@ void testRegKeySubkeyNames()
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const vector<wstring> res = rk.subkeyNames();
+      const std::vector<std::wstring> res = rk.subkeyNames();
       VERIFY(res == subkeys, caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::subkeyNames for no subkeys"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeySubkeyNames";
+      const std::string caseLabel{"RegKey::subkeyNames for no subkeys"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeySubkeyNames";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       {
@@ -1099,7 +1098,7 @@ void testRegKeySubkeyNames()
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const vector<wstring> res = rk.subkeyNames();
+      const std::vector<std::wstring> res = rk.subkeyNames();
       VERIFY(res.empty(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
@@ -1110,14 +1109,14 @@ void testRegKeySubkeyNames()
 void testRegKeyCountEntries()
 {
    {
-      const string caseLabel{"RegKey::countEntries for multiple entries"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountEntries";
+      const std::string caseLabel{"RegKey::countEntries for multiple entries"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyCountEntries";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const vector<wstring> entries{L"entry1", L"entry2", L"entry3"};
+      const std::vector<std::wstring> entries{L"entry1", L"entry2", L"entry3"};
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
-         for (const wstring& entryName : entries)
+         for (const std::wstring& entryName : entries)
             setup.writeInt32(entryName, 1);
       }
 
@@ -1128,8 +1127,8 @@ void testRegKeyCountEntries()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::countEntries for single entry"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountEntries";
+      const std::string caseLabel{"RegKey::countEntries for single entry"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyCountEntries";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       {
@@ -1144,8 +1143,8 @@ void testRegKeyCountEntries()
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::countEntries for no entries"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyCountEntries";
+      const std::string caseLabel{"RegKey::countEntries for no entries"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyCountEntries";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       {
@@ -1164,44 +1163,44 @@ void testRegKeyCountEntries()
 void testRegKeyEntryNames()
 {
    {
-      const string caseLabel{"RegKey::entryNames for multiple entries"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyEntryNames";
+      const std::string caseLabel{"RegKey::entryNames for multiple entries"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyEntryNames";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const vector<wstring> entries{L"entry1", L"entry2", L"entry3"};
+      const std::vector<std::wstring> entries{L"entry1", L"entry2", L"entry3"};
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
-         for (const wstring& entryName : entries)
+         for (const std::wstring& entryName : entries)
             setup.writeInt32(entryName, 1);
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const vector<wstring> res = rk.entryNames();
+      const std::vector<std::wstring> res = rk.entryNames();
       VERIFY(res == entries, caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::entryNames for single entry"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyEntryNames";
+      const std::string caseLabel{"RegKey::entryNames for single entry"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyEntryNames";
       createKey(HKEY_CURRENT_USER, keyPath);
 
-      const vector<wstring> entries{L"entry1"};
+      const std::vector<std::wstring> entries{L"entry1"};
       {
          RegKey setup{HKEY_CURRENT_USER, keyPath};
-         for (const wstring& entryName : entries)
+         for (const std::wstring& entryName : entries)
             setup.writeInt32(entryName, 1);
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const vector<wstring> res = rk.entryNames();
+      const std::vector<std::wstring> res = rk.entryNames();
       VERIFY(res == entries, caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);
    }
    {
-      const string caseLabel{"RegKey::entryNames for no entries"};
-      const wstring keyPath = TestsKeyPath + L"\\RegKeyEntryNames";
+      const std::string caseLabel{"RegKey::entryNames for no entries"};
+      const std::wstring keyPath = TestsKeyPath + L"\\RegKeyEntryNames";
       createKey(HKEY_CURRENT_USER, keyPath);
 
       {
@@ -1209,7 +1208,7 @@ void testRegKeyEntryNames()
       }
 
       RegKey rk{HKEY_CURRENT_USER, keyPath};
-      const vector<wstring> res = rk.entryNames();
+      const std::vector<std::wstring> res = rk.entryNames();
       VERIFY(res.empty(), caseLabel);
 
       deleteKey(HKEY_CURRENT_USER, keyPath);

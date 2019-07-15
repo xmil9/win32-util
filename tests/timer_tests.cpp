@@ -14,7 +14,6 @@
 #include <functional>
 #include <thread>
 
-using namespace std::chrono_literals;
 using namespace win32;
 
 

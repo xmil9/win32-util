@@ -9,7 +9,6 @@
 #include "mem_util.h"
 #include "test_util.h"
 
-using namespace std;
 using namespace win32;
 
 
@@ -20,7 +19,7 @@ namespace
 void testCoTaskMemDefaultCtor()
 {
    {
-      const string caseLabel{"CoTaskMem default ctor"};
+      const std::string caseLabel{"CoTaskMem default ctor"};
       CoTaskMem<int> mem;
       VERIFY(mem.ptr() == nullptr, caseLabel);
    }
@@ -30,7 +29,7 @@ void testCoTaskMemDefaultCtor()
 void testCoTaskMemCtorWithPointer()
 {
    {
-      const string caseLabel{"CoTaskMem pointer ctor"};
+      const std::string caseLabel{"CoTaskMem pointer ctor"};
       int* p = static_cast<int*>(CoTaskMemAlloc(5 * sizeof(int)));
       CoTaskMem<int> mem(p);
       VERIFY(mem.ptr() == p, caseLabel);
@@ -47,7 +46,7 @@ void testCoTaskMemDtor()
 void testCoTaskMemMoveCtor()
 {
    {
-      const string caseLabel{"CoTaskMem move ctor"};
+      const std::string caseLabel{"CoTaskMem move ctor"};
       int* p = static_cast<int*>(CoTaskMemAlloc(5 * sizeof(int)));
       CoTaskMem<int> memA{p};
       CoTaskMem<int> memB{std::move(memA)};
@@ -60,7 +59,7 @@ void testCoTaskMemMoveCtor()
 void testCoTaskMemMoveAssignment()
 {
    {
-      const string caseLabel{"CoTaskMem move assignment"};
+      const std::string caseLabel{"CoTaskMem move assignment"};
       int* p = static_cast<int*>(CoTaskMemAlloc(5 * sizeof(int)));
       CoTaskMem<int> memA{p};
       CoTaskMem<int> memB;
@@ -74,13 +73,13 @@ void testCoTaskMemMoveAssignment()
 void testCoTaskMemOperatorBool()
 {
    {
-      const string caseLabel{"CoTaskMem operator bool for allocated memory"};
+      const std::string caseLabel{"CoTaskMem operator bool for allocated memory"};
       int* p = static_cast<int*>(CoTaskMemAlloc(5 * sizeof(int)));
       CoTaskMem<int> mem{p};
       VERIFY(mem.operator bool(), caseLabel);
    }
    {
-      const string caseLabel{"CoTaskMem operator bool for empty object"};
+      const std::string caseLabel{"CoTaskMem operator bool for empty object"};
       CoTaskMem<int> mem;
       VERIFY(!mem.operator bool(), caseLabel);
    }
@@ -90,7 +89,7 @@ void testCoTaskMemOperatorBool()
 void testCoTaskMemSwap()
 {
    {
-      const string caseLabel{"CoTaskMem swap"};
+      const std::string caseLabel{"CoTaskMem swap"};
       int* pA = static_cast<int*>(CoTaskMemAlloc(5 * sizeof(int)));
       CoTaskMem<int> memA{pA};
       int* pB = static_cast<int*>(CoTaskMemAlloc(2 * sizeof(int)));
@@ -105,7 +104,7 @@ void testCoTaskMemSwap()
 void testCoTaskMemPtr()
 {
    {
-      const string caseLabel{"CoTaskMem::ptr"};
+      const std::string caseLabel{"CoTaskMem::ptr"};
       int* p = static_cast<int*>(CoTaskMemAlloc(5 * sizeof(int)));
       CoTaskMem<int> mem{p};
       VERIFY(mem.ptr() == p, caseLabel);
@@ -116,7 +115,7 @@ void testCoTaskMemPtr()
 void testCoTaskMemConstPtr()
 {
    {
-      const string caseLabel{"CoTaskMem::ptr const"};
+      const std::string caseLabel{"CoTaskMem::ptr const"};
       int* p = static_cast<int*>(CoTaskMemAlloc(5 * sizeof(int)));
       const CoTaskMem<int> mem{p};
       VERIFY(mem.ptr() == p, caseLabel);
@@ -127,7 +126,7 @@ void testCoTaskMemConstPtr()
 void testCoTaskMemAddr()
 {
    {
-      const string caseLabel{"CoTaskMem::addr for allocated memory"};
+      const std::string caseLabel{"CoTaskMem::addr for allocated memory"};
       int* p = static_cast<int*>(CoTaskMemAlloc(sizeof(int)));
       *p = 42;
       CoTaskMem<int> mem{p};
@@ -135,7 +134,7 @@ void testCoTaskMemAddr()
       VERIFY(**address == *p, caseLabel);
    }
    {
-      const string caseLabel{"CoTaskMem::addr for empty object"};
+      const std::string caseLabel{"CoTaskMem::addr for empty object"};
       CoTaskMem<int> mem;
       int** address = mem.addr();
       VERIFY(*address == nullptr, caseLabel);
@@ -146,7 +145,7 @@ void testCoTaskMemAddr()
 void testCoTaskMemClear()
 {
    {
-      const string caseLabel{"CoTaskMem::clear"};
+      const std::string caseLabel{"CoTaskMem::clear"};
       int* p = static_cast<int*>(CoTaskMemAlloc(sizeof(int)));
       CoTaskMem<int> mem{p};
       mem.clear();
@@ -158,7 +157,7 @@ void testCoTaskMemClear()
 void testCoTaskMemFree()
 {
    {
-      const string caseLabel{"CoTaskMem::free"};
+      const std::string caseLabel{"CoTaskMem::free"};
       int* p = static_cast<int*>(CoTaskMemAlloc(sizeof(int)));
       CoTaskMem<int> mem{p};
       mem.free();
@@ -170,7 +169,7 @@ void testCoTaskMemFree()
 void testGlobalMemDefaultCtor()
 {
    {
-      const string caseLabel{"GlobalMem default ctor"};
+      const std::string caseLabel{"GlobalMem default ctor"};
       GlobalMem<float> mem;
       VERIFY(mem.ptr() == nullptr, caseLabel);
    }
@@ -180,7 +179,7 @@ void testGlobalMemDefaultCtor()
 void testGlobalMemCtorWithPointer()
 {
    {
-      const string caseLabel{"GlobalMem pointer ctor"};
+      const std::string caseLabel{"GlobalMem pointer ctor"};
       float* p = static_cast<float*>(GlobalAlloc(0, 5 * sizeof(float)));
       GlobalMem<float> mem(p);
       VERIFY(mem.ptr() == p, caseLabel);
@@ -197,7 +196,7 @@ void testGlobalMemDtor()
 void testGlobalMemMoveCtor()
 {
    {
-      const string caseLabel{"GlobalMem move ctor"};
+      const std::string caseLabel{"GlobalMem move ctor"};
       float* p = static_cast<float*>(GlobalAlloc(0, 5 * sizeof(float)));
       GlobalMem<float> memA{p};
       GlobalMem<float> memB{std::move(memA)};
@@ -210,7 +209,7 @@ void testGlobalMemMoveCtor()
 void testGlobalMemMoveAssignment()
 {
    {
-      const string caseLabel{"GlobalMem move assignment"};
+      const std::string caseLabel{"GlobalMem move assignment"};
       float* p = static_cast<float*>(GlobalAlloc(0, 5 * sizeof(float)));
       GlobalMem<float> memA{p};
       GlobalMem<float> memB;
@@ -224,13 +223,13 @@ void testGlobalMemMoveAssignment()
 void testGlobalMemOperatorBool()
 {
    {
-      const string caseLabel{"GlobalMem operator bool for allocated memory"};
+      const std::string caseLabel{"GlobalMem operator bool for allocated memory"};
       float* p = static_cast<float*>(GlobalAlloc(0, 5 * sizeof(float)));
       GlobalMem<float> mem{p};
       VERIFY(mem.operator bool(), caseLabel);
    }
    {
-      const string caseLabel{"GlobalMem operator bool for empty object"};
+      const std::string caseLabel{"GlobalMem operator bool for empty object"};
       GlobalMem<float> mem;
       VERIFY(!mem.operator bool(), caseLabel);
    }
@@ -240,7 +239,7 @@ void testGlobalMemOperatorBool()
 void testGlobalMemSwap()
 {
    {
-      const string caseLabel{"GlobalMem swap"};
+      const std::string caseLabel{"GlobalMem swap"};
       float* pA = static_cast<float*>(GlobalAlloc(0, 5 * sizeof(float)));
       GlobalMem<float> memA{pA};
       float* pB = static_cast<float*>(GlobalAlloc(0, 2 * sizeof(float)));
@@ -255,7 +254,7 @@ void testGlobalMemSwap()
 void testGlobalMemPtr()
 {
    {
-      const string caseLabel{"GlobalMem::ptr"};
+      const std::string caseLabel{"GlobalMem::ptr"};
       float* p = static_cast<float*>(GlobalAlloc(0, 5 * sizeof(float)));
       GlobalMem<float> mem{p};
       VERIFY(mem.ptr() == p, caseLabel);
@@ -266,7 +265,7 @@ void testGlobalMemPtr()
 void testGlobalMemConstPtr()
 {
    {
-      const string caseLabel{"GlobalMem::ptr const"};
+      const std::string caseLabel{"GlobalMem::ptr const"};
       float* p = static_cast<float*>(GlobalAlloc(0, 5 * sizeof(float)));
       const GlobalMem<float> mem{p};
       VERIFY(mem.ptr() == p, caseLabel);
@@ -277,7 +276,7 @@ void testGlobalMemConstPtr()
 void testGlobalMemAddr()
 {
    {
-      const string caseLabel{"GlobalMem::addr for allocated memory"};
+      const std::string caseLabel{"GlobalMem::addr for allocated memory"};
       float* p = static_cast<float*>(GlobalAlloc(0, sizeof(float)));
       *p = 42.0f;
       GlobalMem<float> mem{p};
@@ -285,7 +284,7 @@ void testGlobalMemAddr()
       VERIFY(**address == *p, caseLabel);
    }
    {
-      const string caseLabel{"GlobalMem::addr for empty object"};
+      const std::string caseLabel{"GlobalMem::addr for empty object"};
       GlobalMem<float> mem;
       float** address = mem.addr();
       VERIFY(*address == nullptr, caseLabel);
@@ -296,7 +295,7 @@ void testGlobalMemAddr()
 void testGlobalMemClear()
 {
    {
-      const string caseLabel{"GlobalMem::clear"};
+      const std::string caseLabel{"GlobalMem::clear"};
       float* p = static_cast<float*>(GlobalAlloc(0, sizeof(float)));
       GlobalMem<float> mem{p};
       mem.clear();
@@ -308,7 +307,7 @@ void testGlobalMemClear()
 void testGlobalMemFree()
 {
    {
-      const string caseLabel{"GlobalMem::free"};
+      const std::string caseLabel{"GlobalMem::free"};
       float* p = static_cast<float*>(GlobalAlloc(0, sizeof(float)));
       GlobalMem<float> mem{p};
       mem.free();
@@ -320,7 +319,7 @@ void testGlobalMemFree()
 void testLocalMemDefaultCtor()
 {
    {
-      const string caseLabel{"LocalMem default ctor"};
+      const std::string caseLabel{"LocalMem default ctor"};
       LocalMem<char> mem;
       VERIFY(mem.ptr() == nullptr, caseLabel);
    }
@@ -330,7 +329,7 @@ void testLocalMemDefaultCtor()
 void testLocalMemCtorWithPointer()
 {
    {
-      const string caseLabel{"LocalMem pointer ctor"};
+      const std::string caseLabel{"LocalMem pointer ctor"};
       char* p = static_cast<char*>(LocalAlloc(0, 5 * sizeof(char)));
       LocalMem<char> mem(p);
       VERIFY(mem.ptr() == p, caseLabel);
@@ -347,7 +346,7 @@ void testLocalMemDtor()
 void testLocalMemMoveCtor()
 {
    {
-      const string caseLabel{"LocalMem move ctor"};
+      const std::string caseLabel{"LocalMem move ctor"};
       char* p = static_cast<char*>(LocalAlloc(0, 5 * sizeof(char)));
       LocalMem<char> memA{p};
       LocalMem<char> memB{std::move(memA)};
@@ -360,7 +359,7 @@ void testLocalMemMoveCtor()
 void testLocalMemMoveAssignment()
 {
    {
-      const string caseLabel{"LocalMem move assignment"};
+      const std::string caseLabel{"LocalMem move assignment"};
       char* p = static_cast<char*>(LocalAlloc(0, 5 * sizeof(char)));
       LocalMem<char> memA{p};
       LocalMem<char> memB;
@@ -374,13 +373,13 @@ void testLocalMemMoveAssignment()
 void testLocalMemOperatorBool()
 {
    {
-      const string caseLabel{"LocalMem operator bool for allocated memory"};
+      const std::string caseLabel{"LocalMem operator bool for allocated memory"};
       char* p = static_cast<char*>(LocalAlloc(0, 5 * sizeof(char)));
       LocalMem<char> mem{p};
       VERIFY(mem.operator bool(), caseLabel);
    }
    {
-      const string caseLabel{"LocalMem operator bool for empty object"};
+      const std::string caseLabel{"LocalMem operator bool for empty object"};
       LocalMem<char> mem;
       VERIFY(!mem.operator bool(), caseLabel);
    }
@@ -390,7 +389,7 @@ void testLocalMemOperatorBool()
 void testLocalMemSwap()
 {
    {
-      const string caseLabel{"LocalMem swap"};
+      const std::string caseLabel{"LocalMem swap"};
       char* pA = static_cast<char*>(LocalAlloc(0, 5 * sizeof(char)));
       LocalMem<char> memA{pA};
       char* pB = static_cast<char*>(LocalAlloc(0, 2 * sizeof(char)));
@@ -405,7 +404,7 @@ void testLocalMemSwap()
 void testLocalMemPtr()
 {
    {
-      const string caseLabel{"LocalMem::ptr"};
+      const std::string caseLabel{"LocalMem::ptr"};
       char* p = static_cast<char*>(LocalAlloc(0, 5 * sizeof(char)));
       LocalMem<char> mem{p};
       VERIFY(mem.ptr() == p, caseLabel);
@@ -416,7 +415,7 @@ void testLocalMemPtr()
 void testLocalMemConstPtr()
 {
    {
-      const string caseLabel{"LocalMem::ptr const"};
+      const std::string caseLabel{"LocalMem::ptr const"};
       char* p = static_cast<char*>(LocalAlloc(0, 5 * sizeof(char)));
       const LocalMem<char> mem{p};
       VERIFY(mem.ptr() == p, caseLabel);
@@ -427,7 +426,7 @@ void testLocalMemConstPtr()
 void testLocalMemAddr()
 {
    {
-      const string caseLabel{"LocalMem::addr for allocated memory"};
+      const std::string caseLabel{"LocalMem::addr for allocated memory"};
       char* p = static_cast<char*>(LocalAlloc(0, sizeof(char)));
       *p = 'a';
       LocalMem<char> mem{p};
@@ -435,7 +434,7 @@ void testLocalMemAddr()
       VERIFY(**address == *p, caseLabel);
    }
    {
-      const string caseLabel{"LocalMem::addr for empty object"};
+      const std::string caseLabel{"LocalMem::addr for empty object"};
       LocalMem<char> mem;
       char** address = mem.addr();
       VERIFY(*address == nullptr, caseLabel);
@@ -446,7 +445,7 @@ void testLocalMemAddr()
 void testLocalMemClear()
 {
    {
-      const string caseLabel{"LocalMem::clear"};
+      const std::string caseLabel{"LocalMem::clear"};
       char* p = static_cast<char*>(LocalAlloc(0, sizeof(char)));
       LocalMem<char> mem{p};
       mem.clear();
@@ -458,7 +457,7 @@ void testLocalMemClear()
 void testLocalMemFree()
 {
    {
-      const string caseLabel{"LocalMem::free"};
+      const std::string caseLabel{"LocalMem::free"};
       char* p = static_cast<char*>(LocalAlloc(0, sizeof(char)));
       LocalMem<char> mem{p};
       mem.free();
@@ -470,7 +469,7 @@ void testLocalMemFree()
 void testHeapMemDefaultCtor()
 {
    {
-      const string caseLabel{"HeapMem default ctor"};
+      const std::string caseLabel{"HeapMem default ctor"};
       HeapMem<wchar_t> mem;
       VERIFY(mem.ptr() == nullptr, caseLabel);
    }
@@ -480,7 +479,7 @@ void testHeapMemDefaultCtor()
 void testHeapMemCtorWithPointer()
 {
    {
-      const string caseLabel{"HeapMem pointer ctor"};
+      const std::string caseLabel{"HeapMem pointer ctor"};
       wchar_t* p =
          static_cast<wchar_t*>(HeapAlloc(GetProcessHeap(), 0, 5 * sizeof(wchar_t)));
       HeapMem<wchar_t> mem(p);
@@ -492,7 +491,7 @@ void testHeapMemCtorWithPointer()
 void testHeapMemCtorWithAll()
 {
    {
-      const string caseLabel{"HeapMem ctor with all parameters"};
+      const std::string caseLabel{"HeapMem ctor with all parameters"};
       wchar_t* p =
          static_cast<wchar_t*>(HeapAlloc(GetProcessHeap(), 0, 5 * sizeof(wchar_t)));
       HeapMem<wchar_t> mem(GetProcessHeap(), 0, p);
@@ -510,7 +509,7 @@ void testHeapMemDtor()
 void testHeapMemMoveCtor()
 {
    {
-      const string caseLabel{"HeapMem move ctor"};
+      const std::string caseLabel{"HeapMem move ctor"};
       wchar_t* p =
          static_cast<wchar_t*>(HeapAlloc(GetProcessHeap(), 0, 5 * sizeof(wchar_t)));
       HeapMem<wchar_t> memA{p};
@@ -524,7 +523,7 @@ void testHeapMemMoveCtor()
 void testHeapMemMoveAssignment()
 {
    {
-      const string caseLabel{"HeapMem move assignment"};
+      const std::string caseLabel{"HeapMem move assignment"};
       wchar_t* p =
          static_cast<wchar_t*>(HeapAlloc(GetProcessHeap(), 0, 5 * sizeof(wchar_t)));
       HeapMem<wchar_t> memA{p};
@@ -539,14 +538,14 @@ void testHeapMemMoveAssignment()
 void testHeapMemOperatorBool()
 {
    {
-      const string caseLabel{"HeapMem operator bool for allocated memory"};
+      const std::string caseLabel{"HeapMem operator bool for allocated memory"};
       wchar_t* p =
          static_cast<wchar_t*>(HeapAlloc(GetProcessHeap(), 0, 5 * sizeof(wchar_t)));
       HeapMem<wchar_t> mem{p};
       VERIFY(mem.operator bool(), caseLabel);
    }
    {
-      const string caseLabel{"HeapMem operator bool for empty object"};
+      const std::string caseLabel{"HeapMem operator bool for empty object"};
       HeapMem<wchar_t> mem;
       VERIFY(!mem.operator bool(), caseLabel);
    }
@@ -556,7 +555,7 @@ void testHeapMemOperatorBool()
 void testHeapMemSwap()
 {
    {
-      const string caseLabel{"HeapMem swap"};
+      const std::string caseLabel{"HeapMem swap"};
       wchar_t* pA =
          static_cast<wchar_t*>(HeapAlloc(GetProcessHeap(), 0, 5 * sizeof(wchar_t)));
       HeapMem<wchar_t> memA{pA};
@@ -573,7 +572,7 @@ void testHeapMemSwap()
 void testHeapMemPtr()
 {
    {
-      const string caseLabel{"HeapMem::ptr"};
+      const std::string caseLabel{"HeapMem::ptr"};
       wchar_t* p =
          static_cast<wchar_t*>(HeapAlloc(GetProcessHeap(), 0, 5 * sizeof(wchar_t)));
       HeapMem<wchar_t> mem{p};
@@ -585,7 +584,7 @@ void testHeapMemPtr()
 void testHeapMemConstPtr()
 {
    {
-      const string caseLabel{"HeapMem::ptr const"};
+      const std::string caseLabel{"HeapMem::ptr const"};
       wchar_t* p =
          static_cast<wchar_t*>(HeapAlloc(GetProcessHeap(), 0, 5 * sizeof(wchar_t)));
       const HeapMem<wchar_t> mem{p};
@@ -597,7 +596,7 @@ void testHeapMemConstPtr()
 void testHeapMemClear()
 {
    {
-      const string caseLabel{"HeapMem::clear"};
+      const std::string caseLabel{"HeapMem::clear"};
       wchar_t* p = static_cast<wchar_t*>(HeapAlloc(GetProcessHeap(), 0, sizeof(wchar_t)));
       HeapMem<wchar_t> mem{p};
       mem.clear();
@@ -609,7 +608,7 @@ void testHeapMemClear()
 void testHeapMemFree()
 {
    {
-      const string caseLabel{"HeapMem::free"};
+      const std::string caseLabel{"HeapMem::free"};
       wchar_t* p = static_cast<wchar_t*>(HeapAlloc(GetProcessHeap(), 0, sizeof(wchar_t)));
       HeapMem<wchar_t> mem{p};
       mem.free();

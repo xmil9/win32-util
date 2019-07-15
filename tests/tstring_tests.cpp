@@ -15,7 +15,6 @@ using namespace win32;
 
 namespace
 {
-
 ///////////////////
 
 void testStringTraitsForWchar_t()
